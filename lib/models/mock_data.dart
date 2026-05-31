@@ -28,7 +28,7 @@ class MockData {
       rating: 4.8,
       reviewCount: 234,
       isPopular: true,
-      imageUrl: 'https://your-web-link.com/classic-burger.jpg',
+      imageUrl: 'https://picsum.photos/id/1062/300/200', // Placeholder
     ),
     FoodItem(
       id: 'food_2',
@@ -40,7 +40,7 @@ class MockData {
       rating: 4.9,
       reviewCount: 189,
       isPopular: true,
-      imageUrl: 'https://your-web-link.com/double-smash.jpg',
+      imageUrl: 'https://picsum.photos/id/1063/300/200', // Placeholder
     ),
     FoodItem(
       id: 'food_3',
@@ -52,7 +52,7 @@ class MockData {
       rating: 4.6,
       reviewCount: 156,
       isPopular: true,
-      imageUrl: 'https://your-web-link.com/chicken-royale.jpg',
+      imageUrl: 'https://picsum.photos/id/1064/300/200', // Placeholder
     ),
     FoodItem(
       id: 'food_4',
@@ -64,6 +64,7 @@ class MockData {
       rating: 4.3,
       reviewCount: 98,
       isPopular: false,
+      imageUrl: 'https://picsum.photos/id/1065/300/200', // Placeholder
     ),
     FoodItem(
       id: 'food_5',
@@ -75,6 +76,7 @@ class MockData {
       rating: 4.4,
       reviewCount: 67,
       isPopular: false,
+      imageUrl: 'https://picsum.photos/id/1066/300/200', // Placeholder
     ),
 
     // ── Pizza ───────────────────────────────
@@ -88,6 +90,7 @@ class MockData {
       rating: 4.7,
       reviewCount: 210,
       isPopular: true,
+      imageUrl: 'https://picsum.photos/id/1067/300/200', // Placeholder
     ),
     FoodItem(
       id: 'food_7',
@@ -99,6 +102,7 @@ class MockData {
       rating: 4.5,
       reviewCount: 143,
       isPopular: true,
+      imageUrl: 'https://picsum.photos/id/1068/300/200', // Placeholder
     ),
     FoodItem(
       id: 'food_8',
@@ -110,6 +114,7 @@ class MockData {
       rating: 4.6,
       reviewCount: 178,
       isPopular: false,
+      imageUrl: 'https://picsum.photos/id/1069/300/200', // Placeholder
     ),
     FoodItem(
       id: 'food_9',
@@ -121,6 +126,7 @@ class MockData {
       rating: 4.8,
       reviewCount: 165,
       isPopular: true,
+      imageUrl: 'https://picsum.photos/id/1070/300/200', // Placeholder
     ),
 
     // ── Drinks ──────────────────────────────
@@ -134,6 +140,7 @@ class MockData {
       rating: 4.2,
       reviewCount: 320,
       isPopular: true,
+      imageUrl: 'https://picsum.photos/id/1071/300/200', // Placeholder
     ),
     FoodItem(
       id: 'food_11',
@@ -145,6 +152,7 @@ class MockData {
       rating: 4.7,
       reviewCount: 95,
       isPopular: true,
+      imageUrl: 'https://picsum.photos/id/1072/300/200', // Placeholder
     ),
     FoodItem(
       id: 'food_12',
@@ -156,6 +164,7 @@ class MockData {
       rating: 4.8,
       reviewCount: 187,
       isPopular: true,
+      imageUrl: 'https://picsum.photos/id/1073/300/200', // Placeholder
     ),
     FoodItem(
       id: 'food_13',
@@ -167,6 +176,7 @@ class MockData {
       rating: 4.9,
       reviewCount: 201,
       isPopular: true,
+      imageUrl: 'https://picsum.photos/id/1074/300/200', // Placeholder
     ),
     FoodItem(
       id: 'food_14',
@@ -178,6 +188,7 @@ class MockData {
       rating: 4.0,
       reviewCount: 56,
       isPopular: false,
+      imageUrl: 'https://picsum.photos/id/1075/300/200', // Placeholder
     ),
 
     // ── Fries ───────────────────────────────
@@ -191,6 +202,7 @@ class MockData {
       rating: 4.5,
       reviewCount: 289,
       isPopular: true,
+      imageUrl: 'https://picsum.photos/id/1076/300/200', // Placeholder
     ),
     FoodItem(
       id: 'food_16',
@@ -202,6 +214,7 @@ class MockData {
       rating: 4.7,
       reviewCount: 198,
       isPopular: true,
+      imageUrl: 'https://picsum.photos/id/1077/300/200', // Placeholder
     ),
     FoodItem(
       id: 'food_17',
@@ -213,6 +226,7 @@ class MockData {
       rating: 4.4,
       reviewCount: 134,
       isPopular: false,
+      imageUrl: 'https://picsum.photos/id/1078/300/200', // Placeholder
     ),
     FoodItem(
       id: 'food_18',
@@ -224,6 +238,7 @@ class MockData {
       rating: 4.6,
       reviewCount: 112,
       isPopular: false,
+      imageUrl: 'https://picsum.photos/id/1079/300/200', // Placeholder
     ),
   ];
 
