@@ -1,0 +1,45 @@
+name: glory_burger
+description: A modern food ordering mobile app built with Flutter. Glory Burger - Taste the Glory!
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State Management
+  provider: ^6.1.2
+
+  # Icons
+  cupertino_icons: ^1.0.8
+
+  # UI Utilities
+  flutter_svg: ^2.0.10
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # Linting
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+
+  # Assets (uncomment when you add actual images)
+  # assets:
+  #   - assets/images/
+  #   - assets/icons/
+
+  # Fonts (uncomment when you add custom fonts)
+  # fonts:
+  #   - family: Poppins
+  #     fonts:
+  #       - asset: assets/fonts/Poppins-Regular.ttf
+  #       - asset: assets/fonts/Poppins-Bold.ttf
+  #         weight: 700
+  #       - asset: assets/fonts/Poppins-SemiBold.ttf
+  #         weight: 600
