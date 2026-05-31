@@ -28,6 +28,7 @@ class MockData {
       rating: 4.8,
       reviewCount: 234,
       isPopular: true,
+      imageUrl: 'https://your-web-link.com/classic-burger.jpg',
     ),
     FoodItem(
       id: 'food_2',
@@ -39,6 +40,7 @@ class MockData {
       rating: 4.9,
       reviewCount: 189,
       isPopular: true,
+      imageUrl: 'https://your-web-link.com/double-smash.jpg',
     ),
     FoodItem(
       id: 'food_3',
@@ -50,6 +52,7 @@ class MockData {
       rating: 4.6,
       reviewCount: 156,
       isPopular: true,
+      imageUrl: 'https://your-web-link.com/chicken-royale.jpg',
     ),
     FoodItem(
       id: 'food_4',

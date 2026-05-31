@@ -64,7 +64,7 @@ lib/
 │       └── profile_screen.dart     # User profile with edit toggle
 │
 ├── models/                        # Data models (pure Dart classes)
-│   ├── food_item.dart             # Food item model with full details
+│   ├── food_item.dart             # Food item model with network image support
 │   ├── cart_item.dart             # Cart item = food + quantity
 │   ├── order.dart                 # Order with status tracking
 │   ├── category.dart              # Food category
