@@ -21,11 +21,18 @@ void main() {
   // Ensure Flutter bindings are initialized
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Set preferred orientation and system UI overlay for a polished Android experience
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.dark,
-  ));
+  // Set preferred orientation and system UI overlay for a polished experience.
+  // Locking to portrait is standard for food delivery apps on mobile.
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((_) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.light, // For iOS
+    ));
+  });
 
   runApp(
     // MultiProvider wraps the entire app with all necessary state providers.
