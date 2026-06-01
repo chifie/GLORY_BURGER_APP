@@ -101,10 +101,13 @@ class _AppShellState extends State<AppShell> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset(
-          'lib/assets/images/logo.png',
-          height: 45,
-          fit: BoxFit.contain,
+        title: Hero(
+          tag: 'app-logo',
+          child: Image.asset(
+            'lib/assets/images/logo.png',
+            height: 50,
+            fit: BoxFit.contain,
+          ),
         ),
         centerTitle: true,
         backgroundColor: AppColors.primaryRed,
@@ -114,13 +117,22 @@ class _AppShellState extends State<AppShell> {
       drawer: Drawer(
         child: Column(
           children: [
-            const UserAccountsDrawerHeader(
-              decoration: BoxDecoration(color: AppColors.primaryRed),
+            UserAccountsDrawerHeader(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [AppColors.primaryRed, AppColors.darkRed],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
               accountName: Text('Glory Burger Enthusiast', style: TextStyle(fontWeight: FontWeight.bold)),
               accountEmail: Text('customer@gloryburger.com'),
               currentAccountPicture: const CircleAvatar(
                 backgroundColor: Colors.white,
-                backgroundImage: AssetImage('lib/assets/images/logo.png'),
+                child: Padding(
+                  padding: EdgeInsets.all(4.0),
+                  child: Image(image: AssetImage('lib/assets/images/logo.png')),
+                ),
               ),
             ),
             ListTile(

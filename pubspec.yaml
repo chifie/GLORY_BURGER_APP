@@ -30,7 +30,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/
+    - lib/assets/images/
     - assets/icons/
 
   # Fonts (uncomment when you add custom fonts)

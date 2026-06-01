@@ -74,12 +74,15 @@ class _SplashScreenState extends State<SplashScreen>
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // ── App Logo ─────────────────────────────────
-                    Image.asset(
-                      'lib/assets/images/logo.png',
-                      width: 250,
-                      height: 250,
-                      fit: BoxFit.contain,
+                    // ── Hero App Logo ────────────────────────────
+                    Hero(
+                      tag: 'app-logo',
+                      child: Image.asset(
+                        'lib/assets/images/logo.png',
+                        width: 250,
+                        height: 250,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                     const SizedBox(height: 40),
 
