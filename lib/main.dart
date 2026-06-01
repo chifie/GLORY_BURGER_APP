@@ -81,6 +81,7 @@ class AppShell extends StatefulWidget {
 
 class _AppShellState extends State<AppShell> {
   int _currentIndex = 0;
+  String _selectedPaymentMethod = 'Credit/Debit Card';
 
   // The main screens for each tab
   final List<Widget> _screens = const [
@@ -146,6 +147,7 @@ class _AppShellState extends State<AppShell> {
             ListTile(
               leading: const Icon(Icons.payment_outlined),
               title: const Text('Payment Methods'),
+              subtitle: Text(_selectedPaymentMethod, style: const TextStyle(fontSize: 12, color: AppColors.mediumGrey)),
               onTap: () {
                 Navigator.pop(context);
                 // Navigate to payment method or open a bottom sheet
@@ -207,21 +209,29 @@ class _AppShellState extends State<AppShell> {
             ListTile(
               leading: const Icon(Icons.credit_card, color: AppColors.primaryRed),
               title: const Text('Credit/Debit Card'),
-              onTap: () => Navigator.pop(context),
+              trailing: _selectedPaymentMethod == 'Credit/Debit Card' ? const Icon(Icons.check, color: AppColors.successGreen) : null,
+              onTap: () => _updatePaymentMethod('Credit/Debit Card'),
             ),
             ListTile(
               leading: const Icon(Icons.phone_android, color: Colors.green),
               title: const Text('Mobile Money'),
-              onTap: () => Navigator.pop(context),
+              trailing: _selectedPaymentMethod == 'Mobile Money' ? const Icon(Icons.check, color: AppColors.successGreen) : null,
+              onTap: () => _updatePaymentMethod('Mobile Money'),
             ),
             ListTile(
               leading: const Icon(Icons.money, color: Colors.orange),
               title: const Text('Cash on Delivery'),
-              onTap: () => Navigator.pop(context),
+              trailing: _selectedPaymentMethod == 'Cash on Delivery' ? const Icon(Icons.check, color: AppColors.successGreen) : null,
+              onTap: () => _updatePaymentMethod('Cash on Delivery'),
             ),
           ],
         ),
       ),
     );
+  }
+
+  void _updatePaymentMethod(String method) {
+    setState(() => _selectedPaymentMethod = method);
+    Navigator.pop(context);
   }
 }

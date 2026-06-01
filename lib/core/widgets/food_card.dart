@@ -37,16 +37,16 @@ class FoodCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── Food Image ─────────────────────────────────────
-            ClipRRect(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(16)),
-              child: Container(
-                height: 120,
-                width: double.infinity,
-                color: AppColors.offWhite,
-                child: food.imageUrl.isNotEmpty
-                    ? Image.asset(
+            // ── Food Image (Expanded to prevent overflow) ──────
+            Expanded(
+              child: ClipRRect(
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(16)),
+                child: Container(
+                  width: double.infinity,
+                  color: AppColors.offWhite,
+                  child: food.imageUrl.isNotEmpty
+                      ? Image.asset(
                         food.imageUrl,
                         fit: BoxFit.cover,
                         errorBuilder: (_, __, ___) => _buildPlaceholderIcon(),
