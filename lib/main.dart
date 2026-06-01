@@ -29,8 +29,8 @@ Future<void> main() async {
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.dark,
-    statusBarBrightness: Brightness.light, // For iOS
+    statusBarIconBrightness: Brightness.light, // White icons for dark red header
+    statusBarBrightness: Brightness.dark,  // For iOS dark status bar
   ));
 
   runApp(
@@ -125,8 +125,8 @@ class _AppShellState extends State<AppShell> {
                   end: Alignment.bottomRight,
                 ),
               ),
-              accountName: Text('Glory Burger Enthusiast', style: TextStyle(fontWeight: FontWeight.bold)),
-              accountEmail: Text('customer@gloryburger.com'),
+              accountName: const Text('Glory Burger Enthusiast', style: TextStyle(fontWeight: FontWeight.bold)),
+              accountEmail: const Text('customer@gloryburger.com'),
               currentAccountPicture: const CircleAvatar(
                 backgroundColor: Colors.white,
                 child: Padding(

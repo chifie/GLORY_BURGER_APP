@@ -18,6 +18,8 @@ class _SplashScreenState extends State<SplashScreen>
   late Animation<double> _fadeIn;
   late Animation<double> _scaleIn;
 
+  static const _animationDuration = Duration(milliseconds: 1500);
+
   @override
   void initState() {
     super.initState();
@@ -25,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen>
     // Configure animation controller for the splash sequence
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500),
+      duration: _animationDuration,
     );
 
     // Fade-in animation
@@ -41,7 +43,8 @@ class _SplashScreenState extends State<SplashScreen>
     _controller.forward();
 
     // Navigate to Home screen after splash duration
-    Future.delayed(AppConstants.splashDuration, () {
+    // Ensures we wait at least for the animation + a small buffer
+    Future.delayed(const Duration(milliseconds: 2000), () {
       if (mounted) {
         Navigator.of(context).pushReplacementNamed(AppRoutes.home);
       }
