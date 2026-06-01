@@ -26,6 +26,16 @@ dev_dependencies:
   # Linting
   flutter_lints: ^4.0.0
 
+  # Launcher Icons
+  flutter_launcher_icons: ^0.14.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "lib/assets/images/logo.png"
+  adaptive_icon_background: "#E4002B"
+  adaptive_icon_foreground: "lib/assets/images/logo.png"
+
 flutter:
   uses-material-design: true
 
