@@ -31,7 +31,7 @@ flutter:
 
   assets:
     - lib/assets/images/
-    - assets/icons/
+    - lib/assets/images/burgers/
 
   # Fonts (uncomment when you add custom fonts)
   # fonts:
