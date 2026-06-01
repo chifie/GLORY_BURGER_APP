@@ -101,7 +101,11 @@ class _AppShellState extends State<AppShell> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Glory Burger'),
+        title: Image.asset(
+          'lib/assets/images/logo.png',
+          height: 45,
+          fit: BoxFit.contain,
+        ),
         centerTitle: true,
         backgroundColor: AppColors.primaryRed,
         foregroundColor: Colors.white,
@@ -114,9 +118,9 @@ class _AppShellState extends State<AppShell> {
               decoration: BoxDecoration(color: AppColors.primaryRed),
               accountName: Text('Glory Burger Enthusiast', style: TextStyle(fontWeight: FontWeight.bold)),
               accountEmail: Text('customer@gloryburger.com'),
-              currentAccountPicture: CircleAvatar(
+              currentAccountPicture: const CircleAvatar(
                 backgroundColor: Colors.white,
-                child: Icon(Icons.person, color: AppColors.primaryRed, size: 40),
+                backgroundImage: AssetImage('lib/assets/images/logo.png'),
               ),
             ),
             ListTile(

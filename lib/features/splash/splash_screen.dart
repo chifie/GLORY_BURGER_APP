@@ -74,68 +74,12 @@ class _SplashScreenState extends State<SplashScreen>
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // ── Logo Container ───────────────────────────
-                    Container(
-                      width: 140,
-                      height: 140,
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(30),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.nearBlack.withValues(alpha: 0.3),
-                            blurRadius: 20,
-                            offset: const Offset(0, 10),
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            // Burger icon as logo placeholder
-                            const Icon(
-                              Icons.lunch_dining,
-                              size: 50,
-                              color: AppColors.primaryRed,
-                            ),
-                            const SizedBox(height: 6),
-                            Text(
-                              'GLORY',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
-                                color: AppColors.primaryRed,
-                                letterSpacing: 3,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-
-                    // ── App Name ─────────────────────────────────
-                    const Text(
-                      AppConstants.appName,
-                      style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.w900,
-                        color: AppColors.white,
-                        letterSpacing: 2,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-
-                    // ── Tagline ──────────────────────────────────
-                    const Text(
-                      AppConstants.appTagline,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.accentGold,
-                        letterSpacing: 1,
-                      ),
+                    // ── App Logo ─────────────────────────────────
+                    Image.asset(
+                      'lib/assets/images/logo.png',
+                      width: 250,
+                      height: 250,
+                      fit: BoxFit.contain,
                     ),
                     const SizedBox(height: 40),
 
