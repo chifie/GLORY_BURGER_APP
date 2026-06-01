@@ -17,22 +17,21 @@ import 'routes/app_routes.dart';
 import 'routes/route_generator.dart';
 
 /// Main entry point for the Glory Burger food ordering app.
-void main() {
+Future<void> main() async {
   // Ensure Flutter bindings are initialized
   WidgetsFlutterBinding.ensureInitialized();
 
   // Set preferred orientation and system UI overlay for a polished experience.
-  // Locking to portrait is standard for food delivery apps on mobile.
-  SystemChrome.setPreferredOrientations([
+  await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-  ]).then((_) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-      statusBarBrightness: Brightness.light, // For iOS
-    ));
-  });
+  ]);
+
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.dark,
+    statusBarBrightness: Brightness.light, // For iOS
+  ));
 
   runApp(
     // MultiProvider wraps the entire app with all necessary state providers.
@@ -113,7 +112,7 @@ class _AppShellState extends State<AppShell> {
           children: [
             const UserAccountsDrawerHeader(
               decoration: BoxDecoration(color: AppColors.primaryRed),
-              accountName: Text('Glory Customer', style: TextStyle(fontWeight: FontWeight.bold)),
+              accountName: Text('Glory Burger Enthusiast', style: TextStyle(fontWeight: FontWeight.bold)),
               accountEmail: Text('customer@gloryburger.com'),
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.white,
@@ -176,16 +175,34 @@ class _AppShellState extends State<AppShell> {
   void _showPaymentMethods(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
       builder: (context) => Container(
         padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('Select Payment Method', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const Text(
+              'Select Payment Method',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.darkCharcoal),
+            ),
             const SizedBox(height: 10),
-            ListTile(leading: const Icon(Icons.credit_card), title: const Text('Credit/Debit Card')),
-            ListTile(leading: const Icon(Icons.phone_android), title: const Text('Mobile Money')),
-            ListTile(leading: const Icon(Icons.money), title: const Text('Cash on Delivery')),
+            ListTile(
+              leading: const Icon(Icons.credit_card, color: AppColors.primaryRed),
+              title: const Text('Credit/Debit Card'),
+              onTap: () => Navigator.pop(context),
+            ),
+            ListTile(
+              leading: const Icon(Icons.phone_android, color: Colors.green),
+              title: const Text('Mobile Money'),
+              onTap: () => Navigator.pop(context),
+            ),
+            ListTile(
+              leading: const Icon(Icons.money, color: Colors.orange),
+              title: const Text('Cash on Delivery'),
+              onTap: () => Navigator.pop(context),
+            ),
           ],
         ),
       ),
