@@ -102,6 +102,12 @@ class _AppShellState extends State<AppShell> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Builder(
+          builder: (ctx) => IconButton(
+            icon: const Icon(Icons.menu_rounded, color: AppColors.white),
+            onPressed: () => Scaffold.of(ctx).openDrawer(),
+          ),
+        ),
         title: Hero(
           tag: 'app-logo',
           child: Image.asset(
@@ -118,6 +124,7 @@ class _AppShellState extends State<AppShell> {
       drawer: Drawer(
         child: Column(
           children: [
+            // ── Drawer Header ────────────────────────────────
             UserAccountsDrawerHeader(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
@@ -126,50 +133,130 @@ class _AppShellState extends State<AppShell> {
                   end: Alignment.bottomRight,
                 ),
               ),
-              accountName: const Text('Glory Burger Enthusiast', style: TextStyle(fontWeight: FontWeight.bold)),
+              accountName: const Text(
+                'Glory Burger Enthusiast',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
               accountEmail: const Text('customer@gloryburger.com'),
-              currentAccountPicture: const CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Padding(
-                  padding: EdgeInsets.all(4.0),
-                  child: Image(image: AssetImage('lib/assets/images/logo.png')),
+              currentAccountPicture: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: AppColors.white, width: 3),
+                ),
+                child: const CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: Padding(
+                    padding: EdgeInsets.all(6.0),
+                    child: Image(
+                      image: AssetImage('lib/assets/images/logo.png'),
+                    ),
+                  ),
                 ),
               ),
             ),
-            ListTile(
-              leading: const Icon(Icons.home_outlined),
-              title: const Text('Home'),
+
+            // ── Menu Items ────────────────────────────────────
+            _buildDrawerMenuItem(
+              icon: Icons.home_rounded,
+              label: 'Home',
               onTap: () {
                 Navigator.pop(context);
                 _onTabSelected(0);
               },
             ),
-            ListTile(
-              leading: const Icon(Icons.payment_outlined),
-              title: const Text('Payment Methods'),
-              subtitle: Text(_selectedPaymentMethod, style: const TextStyle(fontSize: 12, color: AppColors.mediumGrey)),
+            _buildDrawerMenuItem(
+              icon: Icons.shopping_cart_rounded,
+              label: 'My Cart',
               onTap: () {
                 Navigator.pop(context);
-                // Navigate to payment method or open a bottom sheet
-                _showPaymentMethods(context);
+                _onTabSelected(1);
               },
             ),
-            ListTile(
-              leading: const Icon(Icons.history),
-              title: const Text('Order History'),
+            _buildDrawerMenuItem(
+              icon: Icons.receipt_long_rounded,
+              label: 'Order History',
               onTap: () {
                 Navigator.pop(context);
                 _onTabSelected(2);
               },
             ),
-            const Spacer(),
-            const Divider(),
-            ListTile(
-              leading: const Icon(Icons.logout, color: Colors.red),
-              title: const Text('Logout', style: TextStyle(color: Colors.red)),
+
+            const Divider(indent: 16, endIndent: 16),
+
+            // ── Payment Section ───────────────────────────────
+            const Padding(
+              padding: EdgeInsets.only(left: 16, top: 8, bottom: 4),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'PAYMENT',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.mediumGrey,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+              ),
+            ),
+            _buildDrawerMenuItem(
+              icon: Icons.payment_rounded,
+              label: 'Payment Methods',
+              subtitle: _selectedPaymentMethod,
+              onTap: () {
+                Navigator.pop(context);
+                _showPaymentMethods(context);
+              },
+            ),
+
+            const Divider(indent: 16, endIndent: 16),
+
+            // ── More Section ──────────────────────────────────
+            const Padding(
+              padding: EdgeInsets.only(left: 16, top: 8, bottom: 4),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'MORE',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.mediumGrey,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+              ),
+            ),
+            _buildDrawerMenuItem(
+              icon: Icons.person_rounded,
+              label: 'My Profile',
+              onTap: () {
+                Navigator.pop(context);
+                _onTabSelected(3);
+              },
+            ),
+            _buildDrawerMenuItem(
+              icon: Icons.star_rounded,
+              label: 'Rate the App',
               onTap: () => Navigator.pop(context),
             ),
-            const SizedBox(height: 20),
+            _buildDrawerMenuItem(
+              icon: Icons.info_rounded,
+              label: 'About Glory Burger',
+              onTap: () => Navigator.pop(context),
+            ),
+
+            const Spacer(),
+
+            // ── Logout ────────────────────────────────────────
+            const Divider(indent: 16, endIndent: 16),
+            _buildDrawerMenuItem(
+              icon: Icons.logout_rounded,
+              label: 'Logout',
+              isDestructive: true,
+              onTap: () => Navigator.pop(context),
+            ),
+            const SizedBox(height: 16),
           ],
         ),
       ),
@@ -360,6 +447,70 @@ class _AppShellState extends State<AppShell> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDrawerMenuItem({
+    required IconData icon,
+    required String label,
+    String? subtitle,
+    bool isDestructive = false,
+    required VoidCallback onTap,
+  }) {
+    final color = isDestructive ? AppColors.errorRed : AppColors.darkCharcoal;
+    final iconColor = isDestructive ? AppColors.errorRed : AppColors.mediumGrey;
+
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        child: Row(
+          children: [
+            Container(
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(
+                color: isDestructive
+                    ? AppColors.errorRed.withValues(alpha: 0.08)
+                    : AppColors.offWhite,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(icon, color: iconColor, size: 20),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: color,
+                    ),
+                  ),
+                  if (subtitle != null) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle,
+                      style: const TextStyle(
+                        fontSize: 11,
+                        color: AppColors.mediumGrey,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            Icon(
+              Icons.chevron_right_rounded,
+              color: AppColors.lightGrey,
+              size: 20,
+            ),
+          ],
         ),
       ),
     );
