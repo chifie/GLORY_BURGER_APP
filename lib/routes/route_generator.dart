@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'app_routes.dart';
 import '../features/splash/splash_screen.dart';
+import '../main.dart'; // Import AppShell
 import '../features/home/home_screen.dart';
 import '../features/food_details/food_details_screen.dart';
 import '../features/cart/cart_screen.dart';
@@ -22,8 +23,8 @@ class RouteGenerator {
       case AppRoutes.splash:
         return _buildRoute(const SplashScreen(), settings);
 
-      case AppRoutes.home:
-        return _buildRoute(const HomeScreen(), settings);
+      case AppRoutes.appShell:
+        return _buildRoute(const AppShell(), settings);
 
       case AppRoutes.foodDetails:
         // Expect a foodId argument for the details screen
@@ -34,6 +35,9 @@ class RouteGenerator {
         return _buildRoute(FoodDetailsScreen(foodId: foodId), settings);
 
       case AppRoutes.cart:
+        // If navigating directly to cart, ensure it's not nested within AppShell's IndexedStack
+        // This route might be used for deep links or notifications.
+        // For bottom nav, it's handled by AppShell's IndexedStack.
         return _buildRoute(const CartScreen(), settings);
 
       case AppRoutes.checkout:

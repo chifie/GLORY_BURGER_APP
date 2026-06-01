@@ -101,26 +101,6 @@ class _AppShellState extends State<AppShell> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Builder(
-          builder: (ctx) => IconButton(
-            icon: const Icon(Icons.menu_rounded, color: AppColors.white),
-            onPressed: () => Scaffold.of(ctx).openDrawer(),
-          ),
-        ),
-        title: Hero(
-          tag: 'app-logo',
-          child: Image.asset(
-            'lib/assets/images/logo.png',
-            height: 50,
-            fit: BoxFit.contain,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: AppColors.primaryRed,
-        foregroundColor: Colors.white,
-        elevation: 0,
-      ),
       drawer: Drawer(
         child: Column(
           children: [

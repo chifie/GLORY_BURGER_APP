@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen>
     // Ensures we wait at least for the animation + a small buffer
     Future.delayed(const Duration(milliseconds: 2000), () {
       if (mounted) {
-        Navigator.of(context).pushReplacementNamed(AppRoutes.home);
+        Navigator.of(context).pushReplacementNamed(AppRoutes.appShell);
       }
     });
   }
