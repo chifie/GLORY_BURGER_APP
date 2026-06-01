@@ -167,7 +167,7 @@ class _BannerWidgetState extends State<BannerWidget>
                           topRight: Radius.circular(20),
                         ),
                         child: Image.asset(
-                          'lib/assets/images/Classicburger.jpg',
+                          'lib/assets/images/burgers/Classicburger.jpg',
                           width: 150,
                           fit: BoxFit.cover,
                           errorBuilder: (_, __, ___) => const Icon(

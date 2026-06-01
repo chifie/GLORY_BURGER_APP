@@ -28,7 +28,7 @@ class MockData {
       rating: 4.8,
       reviewCount: 234,
       isPopular: true,
-      imageUrl: 'lib/assets/images/Classicburger.jpg',
+      imageUrl: 'lib/assets/images/burgers/Classicburger.jpg',
     ),
     FoodItem(
       id: 'food_2',
@@ -52,7 +52,7 @@ class MockData {
       rating: 4.6,
       reviewCount: 156,
       isPopular: true,
-      imageUrl: 'lib/assets/images/cheeseburger.jpg',
+      imageUrl: 'lib/assets/images/burgers/cheeseburger.jpg',
     ),
     FoodItem(
       id: 'food_4',
@@ -76,7 +76,7 @@ class MockData {
       rating: 4.4,
       reviewCount: 67,
       isPopular: false,
-      imageUrl: 'lib/assets/images/Veggieburger.jpg',
+      imageUrl: 'lib/assets/images/burgers/Veggieburger.jpg',
     ),
 
     // ── Pizza ───────────────────────────────
