@@ -306,6 +306,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Column(
                     children: [
                       _buildInfoTile(
+                        icon: Icons.payment,
+                        title: 'Payment Methods',
+                        subtitle: 'M-Pesa, HaloPesa, Airtel Money & more',
+                      ),
+                      const Divider(height: 24),
+                      _buildInfoTile(
                         icon: Icons.info_outline,
                         title: 'App Version',
                         subtitle: '1.0.0',

@@ -240,17 +240,26 @@ class OrdersScreen extends StatelessWidget {
 
                 const SizedBox(height: 16),
 
-                // Total amount
+                // ── Payment & Total ───────────────────────────
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Total Amount',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.darkCharcoal,
-                      ),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.payment,
+                          size: 14,
+                          color: AppColors.mediumGrey,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          order.paymentMethod,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: AppColors.mediumGrey,
+                          ),
+                        ),
+                      ],
                     ),
                     Text(
                       Helpers.formatPrice(order.total),

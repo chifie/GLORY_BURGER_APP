@@ -28,7 +28,7 @@ class MockData {
       rating: 4.8,
       reviewCount: 234,
       isPopular: true,
-      imageUrl: 'assets/images/glory_classic.png',
+      imageUrl: 'lib/assets/images/Classicburger.jpg',
     ),
     FoodItem(
       id: 'food_2',
@@ -40,7 +40,7 @@ class MockData {
       rating: 4.9,
       reviewCount: 189,
       isPopular: true,
-      imageUrl: 'assets/images/double_smash.png',
+      imageUrl: 'lib/assets/images/burgers/Classicburger.jpg',
     ),
     FoodItem(
       id: 'food_3',
@@ -52,7 +52,7 @@ class MockData {
       rating: 4.6,
       reviewCount: 156,
       isPopular: true,
-      imageUrl: 'assets/images/chicken_royale.png',
+      imageUrl: 'lib/assets/images/cheeseburger.jpg',
     ),
     FoodItem(
       id: 'food_4',
@@ -64,7 +64,7 @@ class MockData {
       rating: 4.3,
       reviewCount: 98,
       isPopular: false,
-      imageUrl: 'assets/images/spicy_inferno.png',
+      imageUrl: 'lib/assets/images/burgers/cheeseburger.jpg',
     ),
     FoodItem(
       id: 'food_5',
@@ -76,7 +76,7 @@ class MockData {
       rating: 4.4,
       reviewCount: 67,
       isPopular: false,
-      imageUrl: 'assets/images/veggie_delight.png',
+      imageUrl: 'lib/assets/images/Veggieburger.jpg',
     ),
 
     // ── Pizza ───────────────────────────────
@@ -90,7 +90,7 @@ class MockData {
       rating: 4.7,
       reviewCount: 210,
       isPopular: true,
-      imageUrl: 'assets/images/pepperoni_supreme.png',
+      imageUrl: 'lib/assets/images/images (1).jpeg',
     ),
     FoodItem(
       id: 'food_7',
@@ -102,7 +102,7 @@ class MockData {
       rating: 4.5,
       reviewCount: 143,
       isPopular: true,
-      imageUrl: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=400&auto=format&fit=crop',
+      imageUrl: 'lib/assets/images/images (2).jpeg',
     ),
     FoodItem(
       id: 'food_8',
@@ -114,7 +114,7 @@ class MockData {
       rating: 4.6,
       reviewCount: 178,
       isPopular: false,
-      imageUrl: 'https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?q=80&w=400&auto=format&fit=crop',
+      imageUrl: 'lib/assets/images/images (3).jpeg',
     ),
     FoodItem(
       id: 'food_9',
@@ -126,7 +126,7 @@ class MockData {
       rating: 4.8,
       reviewCount: 165,
       isPopular: true,
-      imageUrl: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=400&auto=format&fit=crop',
+      imageUrl: 'lib/assets/images/images (4).jpeg',
     ),
 
     // ── Drinks ──────────────────────────────
@@ -140,7 +140,7 @@ class MockData {
       rating: 4.2,
       reviewCount: 320,
       isPopular: true,
-      imageUrl: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=400&auto=format&fit=crop',
+      imageUrl: 'lib/assets/images/images (5).jpeg',
     ),
     FoodItem(
       id: 'food_11',
@@ -152,7 +152,7 @@ class MockData {
       rating: 4.7,
       reviewCount: 95,
       isPopular: true,
-      imageUrl: 'https://images.unsplash.com/photo-1546173159-315724a31696?q=80&w=400&auto=format&fit=crop',
+      imageUrl: 'lib/assets/images/images (6).jpeg',
     ),
     FoodItem(
       id: 'food_12',
@@ -164,7 +164,7 @@ class MockData {
       rating: 4.8,
       reviewCount: 187,
       isPopular: true,
-      imageUrl: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?q=80&w=400&auto=format&fit=crop',
+      imageUrl: 'lib/assets/images/images (7).jpeg',
     ),
     FoodItem(
       id: 'food_13',
@@ -176,7 +176,7 @@ class MockData {
       rating: 4.9,
       reviewCount: 201,
       isPopular: true,
-      imageUrl: 'https://images.unsplash.com/photo-1541658016709-82535e94bc71?q=80&w=400&auto=format&fit=crop',
+      imageUrl: 'lib/assets/images/download (1).jpeg',
     ),
     FoodItem(
       id: 'food_14',
@@ -188,7 +188,7 @@ class MockData {
       rating: 4.0,
       reviewCount: 56,
       isPopular: false,
-      imageUrl: 'https://images.unsplash.com/photo-1551028150-64b9f398f678?q=80&w=400&auto=format&fit=crop',
+      imageUrl: 'lib/assets/images/download (2).jpeg',
     ),
 
     // ── Fries ───────────────────────────────
@@ -202,7 +202,7 @@ class MockData {
       rating: 4.5,
       reviewCount: 289,
       isPopular: true,
-      imageUrl: 'https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?q=80&w=400&auto=format&fit=crop',
+      imageUrl: 'lib/assets/images/download (3).jpeg',
     ),
     FoodItem(
       id: 'food_16',
@@ -214,7 +214,7 @@ class MockData {
       rating: 4.7,
       reviewCount: 198,
       isPopular: true,
-      imageUrl: 'https://images.unsplash.com/photo-1585109649139-366815a0d713?q=80&w=400&auto=format&fit=crop',
+      imageUrl: 'lib/assets/images/download (4).jpeg',
     ),
     FoodItem(
       id: 'food_17',
@@ -226,7 +226,7 @@ class MockData {
       rating: 4.4,
       reviewCount: 134,
       isPopular: false,
-      imageUrl: 'https://images.unsplash.com/photo-1623238913973-21e45cced554?q=80&w=400&auto=format&fit=crop',
+      imageUrl: 'lib/assets/images/download (5).jpeg',
     ),
     FoodItem(
       id: 'food_18',
@@ -238,7 +238,7 @@ class MockData {
       rating: 4.6,
       reviewCount: 112,
       isPopular: false,
-      imageUrl: 'https://images.unsplash.com/photo-1576107232684-1279f390859f?q=80&w=400&auto=format&fit=crop',
+      imageUrl: 'lib/assets/images/download (6).jpeg',
     ),
   ];
 

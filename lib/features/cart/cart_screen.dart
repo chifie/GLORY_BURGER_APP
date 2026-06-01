@@ -144,7 +144,7 @@ class CartScreen extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // ── Food Image Placeholder ─────────────────────────
+            // ── Food Image ─────────────────────────────────────
             Container(
               width: 70,
               height: 70,
@@ -152,12 +152,27 @@ class CartScreen extends StatelessWidget {
                 color: AppColors.offWhite,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Center(
-                child: Icon(
-                  _getCategoryIcon(cartItem.food.category),
-                  size: 30,
-                  color: AppColors.primaryRed.withValues(alpha: 0.4),
-                ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: cartItem.food.imageUrl.isNotEmpty
+                    ? Image.asset(
+                        cartItem.food.imageUrl,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => Center(
+                          child: Icon(
+                            _getCategoryIcon(cartItem.food.category),
+                            size: 30,
+                            color: AppColors.primaryRed.withValues(alpha: 0.4),
+                          ),
+                        ),
+                      )
+                    : Center(
+                        child: Icon(
+                          _getCategoryIcon(cartItem.food.category),
+                          size: 30,
+                          color: AppColors.primaryRed.withValues(alpha: 0.4),
+                        ),
+                      ),
               ),
             ),
             const SizedBox(width: 12),

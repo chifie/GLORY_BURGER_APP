@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
-import '../../core/constants/app_constants.dart';
 import '../../routes/app_routes.dart';
 
 /// Splash screen displayed when the app launches.
@@ -82,9 +81,21 @@ class _SplashScreenState extends State<SplashScreen>
                       tag: 'app-logo',
                       child: Image.asset(
                         'lib/assets/images/logo.png',
-                        width: 250,
-                        height: 250,
+                        width: 220,
+                        height: 220,
                         fit: BoxFit.contain,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+
+                    // ── App Tagline ─────────────────────────────
+                    Text(
+                      'Taste the Glory!',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.white.withValues(alpha: 0.85),
+                        letterSpacing: 2,
                       ),
                     ),
                     const SizedBox(height: 40),

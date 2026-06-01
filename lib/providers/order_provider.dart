@@ -24,6 +24,7 @@ class OrderProvider extends ChangeNotifier {
     required String customerName,
     required String phone,
     required String address,
+    String paymentMethod = 'M-Pesa',
   }) {
     _orderCounter++;
     final orderId = 'GB-${DateTime.now().year}-${_orderCounter.toString().padLeft(4, '0')}';
@@ -43,6 +44,7 @@ class OrderProvider extends ChangeNotifier {
       phone: phone,
       address: address,
       status: AppConstants.statusPending,
+      paymentMethod: paymentMethod,
       orderDate: DateTime.now(),
     );
 

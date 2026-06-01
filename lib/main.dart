@@ -201,30 +201,165 @@ class _AppShellState extends State<AppShell> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            // Drag handle
+            Center(
+              child: Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: AppColors.lightGrey,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
             const Text(
               'Select Payment Method',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.darkCharcoal),
             ),
-            const SizedBox(height: 10),
-            ListTile(
-              leading: const Icon(Icons.credit_card, color: AppColors.primaryRed),
-              title: const Text('Credit/Debit Card'),
-              trailing: _selectedPaymentMethod == 'Credit/Debit Card' ? const Icon(Icons.check, color: AppColors.successGreen) : null,
+            const SizedBox(height: 4),
+            const Text(
+              'Choose your preferred way to pay',
+              style: TextStyle(fontSize: 12, color: AppColors.mediumGrey),
+            ),
+            const SizedBox(height: 16),
+
+            // Credit/Debit Card
+            _buildPaymentTile(
+              icon: Icons.credit_card,
+              color: AppColors.primaryRed,
+              title: 'Credit/Debit Card',
+              subtitle: 'Visa, Mastercard & more',
+              isSelected: _selectedPaymentMethod == 'Credit/Debit Card',
               onTap: () => _updatePaymentMethod('Credit/Debit Card'),
             ),
-            ListTile(
-              leading: const Icon(Icons.phone_android, color: Colors.green),
-              title: const Text('Mobile Money'),
-              trailing: _selectedPaymentMethod == 'Mobile Money' ? const Icon(Icons.check, color: AppColors.successGreen) : null,
-              onTap: () => _updatePaymentMethod('Mobile Money'),
+
+            // M-Pesa
+            _buildPaymentTile(
+              icon: Icons.phone_android,
+              color: const Color(0xFF4CAF50),
+              title: 'M-Pesa',
+              subtitle: 'Pay via M-Pesa mobile money',
+              isSelected: _selectedPaymentMethod == 'M-Pesa',
+              onTap: () => _updatePaymentMethod('M-Pesa'),
             ),
-            ListTile(
-              leading: const Icon(Icons.money, color: Colors.orange),
-              title: const Text('Cash on Delivery'),
-              trailing: _selectedPaymentMethod == 'Cash on Delivery' ? const Icon(Icons.check, color: AppColors.successGreen) : null,
+
+            // HaloPesa
+            _buildPaymentTile(
+              icon: Icons.account_balance_wallet,
+              color: const Color(0xFF1565C0),
+              title: 'HaloPesa',
+              subtitle: 'Pay via HaloPesa mobile wallet',
+              isSelected: _selectedPaymentMethod == 'HaloPesa',
+              onTap: () => _updatePaymentMethod('HaloPesa'),
+            ),
+
+            // Mix by Yas
+            _buildPaymentTile(
+              icon: Icons.swap_horiz,
+              color: const Color(0xFFE91E63),
+              title: 'Mix by Yas',
+              subtitle: 'Pay via Mix by Yas',
+              isSelected: _selectedPaymentMethod == 'Mix by Yas',
+              onTap: () => _updatePaymentMethod('Mix by Yas'),
+            ),
+
+            // Airtel Money
+            _buildPaymentTile(
+              icon: Icons.sim_card,
+              color: const Color(0xFFFF1744),
+              title: 'Airtel Money',
+              subtitle: 'Pay via Airtel Money',
+              isSelected: _selectedPaymentMethod == 'Airtel Money',
+              onTap: () => _updatePaymentMethod('Airtel Money'),
+            ),
+
+            // Cash on Delivery
+            _buildPaymentTile(
+              icon: Icons.money,
+              color: const Color(0xFFFF9800),
+              title: 'Cash on Delivery',
+              subtitle: 'Pay when you receive your order',
+              isSelected: _selectedPaymentMethod == 'Cash on Delivery',
               onTap: () => _updatePaymentMethod('Cash on Delivery'),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPaymentTile({
+    required IconData icon,
+    required Color color,
+    required String title,
+    required String subtitle,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      margin: const EdgeInsets.only(bottom: 8),
+      child: Material(
+        color: isSelected ? color.withValues(alpha: 0.08) : AppColors.offWhite,
+        borderRadius: BorderRadius.circular(14),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(14),
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: Row(
+              children: [
+                Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: color.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(icon, color: color, size: 22),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.darkCharcoal,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        subtitle,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: AppColors.mediumGrey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (isSelected)
+                  Container(
+                    width: 24,
+                    height: 24,
+                    decoration: const BoxDecoration(
+                      color: AppColors.successGreen,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.check,
+                      color: AppColors.white,
+                      size: 16,
+                    ),
+                  ),
+              ],
+            ),
+          ),
         ),
       ),
     );

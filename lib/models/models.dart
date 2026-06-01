@@ -6,6 +6,6 @@ library;
 export 'category.dart';
 export 'food_item.dart';
 export 'cart_item.dart';
-export 'order.dart';
+export 'order_model.dart';
 export 'user_profile.dart';
 export 'mock_data.dart';

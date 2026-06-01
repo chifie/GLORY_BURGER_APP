@@ -11,6 +11,7 @@ class OrderModel {
   final String phone;
   final String address;
   final String status;
+  final String paymentMethod;
   final DateTime orderDate;
 
   const OrderModel({
@@ -23,6 +24,7 @@ class OrderModel {
     required this.phone,
     required this.address,
     this.status = 'Pending',
+    this.paymentMethod = 'M-Pesa',
     required this.orderDate,
   });
 
@@ -37,6 +39,7 @@ class OrderModel {
     String? phone,
     String? address,
     String? status,
+    String? paymentMethod,
     DateTime? orderDate,
   }) {
     return OrderModel(
@@ -49,6 +52,7 @@ class OrderModel {
       phone: phone ?? this.phone,
       address: address ?? this.address,
       status: status ?? this.status,
+      paymentMethod: paymentMethod ?? this.paymentMethod,
       orderDate: orderDate ?? this.orderDate,
     );
   }

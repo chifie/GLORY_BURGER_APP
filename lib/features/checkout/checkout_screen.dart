@@ -23,7 +23,41 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _addressController = TextEditingController();
+  String _selectedPaymentMethod = 'M-Pesa';
   bool _isPlacing = false;
+
+  static const _paymentMethods = [
+    {
+      'name': 'M-Pesa',
+      'icon': Icons.phone_android,
+      'color': Color(0xFF4CAF50),
+      'subtitle': 'Pay via M-Pesa mobile money',
+    },
+    {
+      'name': 'HaloPesa',
+      'icon': Icons.account_balance_wallet,
+      'color': Color(0xFF1565C0),
+      'subtitle': 'Pay via HaloPesa mobile wallet',
+    },
+    {
+      'name': 'Mix by Yas',
+      'icon': Icons.swap_horiz,
+      'color': Color(0xFFE91E63),
+      'subtitle': 'Pay via Mix by Yas',
+    },
+    {
+      'name': 'Airtel Money',
+      'icon': Icons.sim_card,
+      'color': Color(0xFFFF1744),
+      'subtitle': 'Pay via Airtel Money',
+    },
+    {
+      'name': 'Cash on Delivery',
+      'icon': Icons.money,
+      'color': Color(0xFFFF9800),
+      'subtitle': 'Pay when you receive your order',
+    },
+  ];
 
   @override
   void dispose() {
@@ -110,6 +144,118 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         }
                         return null;
                       },
+                    ),
+                    const SizedBox(height: 24),
+
+                    // ── Payment Method ──────────────────────────
+                    const Text(
+                      'Payment Method',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.darkCharcoal,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Column(
+                        children: _paymentMethods.map((method) {
+                          final isSelected =
+                              _selectedPaymentMethod == method['name'];
+                          return InkWell(
+                            onTap: () {
+                              setState(() {
+                                _selectedPaymentMethod =
+                                    method['name'] as String;
+                              });
+                            },
+                            borderRadius: BorderRadius.circular(14),
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 10),
+                              decoration: BoxDecoration(
+                                color: isSelected
+                                    ? (method['color'] as Color)
+                                        .withValues(alpha: 0.06)
+                                    : Colors.transparent,
+                                borderRadius: BorderRadius.circular(12),
+                                border: isSelected
+                                    ? Border.all(
+                                        color: (method['color'] as Color)
+                                            .withValues(alpha: 0.3),
+                                        width: 1.5,
+                                      )
+                                    : null,
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 36,
+                                    height: 36,
+                                    decoration: BoxDecoration(
+                                      color: (method['color'] as Color)
+                                          .withValues(alpha: 0.12),
+                                      borderRadius:
+                                          BorderRadius.circular(10),
+                                    ),
+                                    child: Icon(
+                                      method['icon'] as IconData,
+                                      color: method['color'] as Color,
+                                      size: 18,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          method['name'] as String,
+                                          style: const TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                            color: AppColors.darkCharcoal,
+                                          ),
+                                        ),
+                                        Text(
+                                          method['subtitle'] as String,
+                                          style: const TextStyle(
+                                            fontSize: 10,
+                                            color: AppColors.mediumGrey,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  if (isSelected)
+                                    Container(
+                                      width: 22,
+                                      height: 22,
+                                      decoration: BoxDecoration(
+                                        color:
+                                            method['color'] as Color,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: const Icon(
+                                        Icons.check,
+                                        color: AppColors.white,
+                                        size: 14,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
                     ),
                     const SizedBox(height: 24),
 
@@ -355,6 +501,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       customerName: _nameController.text.trim(),
       phone: _phoneController.text.trim(),
       address: _addressController.text.trim(),
+      paymentMethod: _selectedPaymentMethod,
     );
 
     // Clear the cart after successful order

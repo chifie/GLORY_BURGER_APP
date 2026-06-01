@@ -51,15 +51,21 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
         slivers: [
           // ── Sliver App Bar with Hero Image ────────────────────
           SliverAppBar(
-            expandedHeight: 280,
+            expandedHeight: 300,
             pinned: true,
             elevation: 0,
             backgroundColor: AppColors.primaryRed,
             leading: Container(
               margin: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppColors.white.withValues(alpha: 0.9),
+                color: AppColors.white.withValues(alpha: 0.95),
                 shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.darkCharcoal.withValues(alpha: 0.15),
+                    blurRadius: 6,
+                  ),
+                ],
               ),
               child: IconButton(
                 icon: const Icon(
@@ -71,25 +77,80 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
               ),
             ),
             flexibleSpace: FlexibleSpaceBar(
-              background: Container(
-                color: AppColors.offWhite,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+              background: Hero(
+                tag: 'food_${food.id}',
+                child: Container(
+                  color: AppColors.offWhite,
+                  child: Stack(
+                    fit: StackFit.expand,
                     children: [
-                      const SizedBox(height: 40),
-                      Icon(
-                        _getCategoryIcon(food.category),
-                        size: 100,
-                        color: AppColors.primaryRed.withValues(alpha: 0.3),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        food.category,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: AppColors.mediumGrey,
-                          fontWeight: FontWeight.w500,
+                      if (food.imageUrl.isNotEmpty)
+                        Image.asset(
+                          food.imageUrl,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) => Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const SizedBox(height: 40),
+                                Icon(
+                                  _getCategoryIcon(food.category),
+                                  size: 100,
+                                  color: AppColors.primaryRed.withValues(alpha: 0.3),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  food.category,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: AppColors.mediumGrey,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      else
+                        Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(height: 40),
+                              Icon(
+                                _getCategoryIcon(food.category),
+                                size: 100,
+                                color: AppColors.primaryRed.withValues(alpha: 0.3),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                food.category,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: AppColors.mediumGrey,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      // Gradient overlay at bottom
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: 60,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                AppColors.offWhite.withValues(alpha: 0),
+                                AppColors.offWhite.withValues(alpha: 0.8),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ],
