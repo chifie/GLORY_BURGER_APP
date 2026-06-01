@@ -9,10 +9,10 @@ class MockData {
 
   // ── Categories ────────────────────────────────────────────────
   static const List<Category> categories = [
-    Category(id: 'cat_1', name: 'Burgers', icon: '🍔'),
-    Category(id: 'cat_2', name: 'Pizza', icon: '🍕'),
-    Category(id: 'cat_3', name: 'Drinks', icon: '🥤'),
-    Category(id: 'cat_4', name: 'Fries', icon: '🍟'),
+    Category(id: 'cat_1', name: 'Burgers', icon: 'assets/images/cat_burger.png'),
+    Category(id: 'cat_2', name: 'Pizza', icon: 'assets/images/cat_pizza.png'),
+    Category(id: 'cat_3', name: 'Drinks', icon: 'assets/images/cat_drinks.png'),
+    Category(id: 'cat_4', name: 'Fries', icon: 'assets/images/cat_fries.png'),
   ];
 
   // ── Food Items ────────────────────────────────────────────────
@@ -28,7 +28,7 @@ class MockData {
       rating: 4.8,
       reviewCount: 234,
       isPopular: true,
-      imageUrl: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=400&auto=format&fit=crop',
+      imageUrl: 'assets/images/glory_classic.png',
     ),
     FoodItem(
       id: 'food_2',
@@ -40,7 +40,7 @@ class MockData {
       rating: 4.9,
       reviewCount: 189,
       isPopular: true,
-      imageUrl: 'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=400&auto=format&fit=crop',
+      imageUrl: 'assets/images/double_smash.png',
     ),
     FoodItem(
       id: 'food_3',
@@ -52,7 +52,7 @@ class MockData {
       rating: 4.6,
       reviewCount: 156,
       isPopular: true,
-      imageUrl: 'https://images.unsplash.com/photo-1615485242231-8244fc9280ca?q=80&w=400&auto=format&fit=crop',
+      imageUrl: 'assets/images/chicken_royale.png',
     ),
     FoodItem(
       id: 'food_4',
@@ -64,7 +64,7 @@ class MockData {
       rating: 4.3,
       reviewCount: 98,
       isPopular: false,
-      imageUrl: 'https://images.unsplash.com/photo-1525164286253-04e68b9d94bb?q=80&w=400&auto=format&fit=crop',
+      imageUrl: 'assets/images/spicy_inferno.png',
     ),
     FoodItem(
       id: 'food_5',
@@ -76,7 +76,7 @@ class MockData {
       rating: 4.4,
       reviewCount: 67,
       isPopular: false,
-      imageUrl: 'https://images.unsplash.com/photo-1520073201527-6b044ba2ca9f?q=80&w=400&auto=format&fit=crop',
+      imageUrl: 'assets/images/veggie_delight.png',
     ),
 
     // ── Pizza ───────────────────────────────
@@ -90,7 +90,7 @@ class MockData {
       rating: 4.7,
       reviewCount: 210,
       isPopular: true,
-      imageUrl: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?q=80&w=400&auto=format&fit=crop',
+      imageUrl: 'assets/images/pepperoni_supreme.png',
     ),
     FoodItem(
       id: 'food_7',

@@ -101,6 +101,61 @@ class _AppShellState extends State<AppShell> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Glory Burger'),
+        centerTitle: true,
+        backgroundColor: AppColors.primaryRed,
+        foregroundColor: Colors.white,
+        elevation: 0,
+      ),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            const UserAccountsDrawerHeader(
+              decoration: BoxDecoration(color: AppColors.primaryRed),
+              accountName: Text('Glory Customer', style: TextStyle(fontWeight: FontWeight.bold)),
+              accountEmail: Text('customer@gloryburger.com'),
+              currentAccountPicture: CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Icon(Icons.person, color: AppColors.primaryRed, size: 40),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home_outlined),
+              title: const Text('Home'),
+              onTap: () {
+                Navigator.pop(context);
+                _onTabSelected(0);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.payment_outlined),
+              title: const Text('Payment Methods'),
+              onTap: () {
+                Navigator.pop(context);
+                // Navigate to payment method or open a bottom sheet
+                _showPaymentMethods(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.history),
+              title: const Text('Order History'),
+              onTap: () {
+                Navigator.pop(context);
+                _onTabSelected(2);
+              },
+            ),
+            const Spacer(),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.logout, color: Colors.red),
+              title: const Text('Logout', style: TextStyle(color: Colors.red)),
+              onTap: () => Navigator.pop(context),
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
       backgroundColor: AppColors.offWhite,
       body: IndexedStack(
         index: _currentIndex,
@@ -114,6 +169,25 @@ class _AppShellState extends State<AppShell> {
             cartItemCount: cartProvider.itemCount,
           );
         },
+      ),
+    );
+  }
+
+  void _showPaymentMethods(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('Select Payment Method', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 10),
+            ListTile(leading: const Icon(Icons.credit_card), title: const Text('Credit/Debit Card')),
+            ListTile(leading: const Icon(Icons.phone_android), title: const Text('Mobile Money')),
+            ListTile(leading: const Icon(Icons.money), title: const Text('Cash on Delivery')),
+          ],
+        ),
       ),
     );
   }
