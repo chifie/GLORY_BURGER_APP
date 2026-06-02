@@ -125,10 +125,6 @@ class CustomButton extends StatelessWidget {
                 backgroundColor:
                     const WidgetStatePropertyAll(Colors.transparent),
                 shadowColor: const WidgetStatePropertyAll(Colors.transparent),
-                disabledBackgroundColor:
-                    const WidgetStatePropertyAll(Colors.transparent),
-                disabledForegroundColor:
-                    WidgetStatePropertyAll(textColor ?? AppColors.white),
               ),
               child: child,
             ),

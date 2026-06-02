@@ -61,13 +61,7 @@ class AppColors {
   static const LinearGradient brandGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [burgerRed, burgerOrange],
-  );
-
-  /// Text Highlight Gradient: Yellow-White-Yellow
-  static const LinearGradient textHighlightGradient = LinearGradient(
-    colors: [burgerYellow, white, burgerYellow],
-    stops: [0.0, 0.5, 1.0],
+    colors: [primaryRed, burgerOrange],
   );
 
   // ── Shadow & Glow Helpers ─────────────────────────────────────
@@ -75,7 +69,7 @@ class AppColors {
   static Color redGlow(double opacity) => const Color(0xFFD6232A).withValues(alpha: opacity);
   
   /// Yellow Shadow Glow: 0 0 20px rgba(255, 204, 0, 0.3)
-  static Color yellowGlow(double opacity) => burgerYellow.withValues(alpha: opacity);
+  static Color yellowGlow(double opacity) => accentGold.withValues(alpha: opacity);
 
   /// Glassmorphism Styles
   static BoxDecoration glassDecoration({double blur = 8.0}) {
