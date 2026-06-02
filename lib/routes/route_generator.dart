@@ -23,7 +23,9 @@ class RouteGenerator {
         return _buildRoute(const SplashScreen(), settings);
 
       case AppRoutes.appShell:
-        return _buildRoute(const AppShell(), settings);
+      case AppRoutes.home:
+        final initialIndex = args is int ? args : 0;
+        return _buildRoute(AppShell(initialIndex: initialIndex), settings);
 
       case AppRoutes.foodDetails:
         // Expect a foodId argument for the details screen

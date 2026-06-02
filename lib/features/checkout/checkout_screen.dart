@@ -572,8 +572,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             label: 'Track Order',
             onPressed: () {
               Navigator.of(context).pop(); // Close dialog
-              Navigator.of(context).pushReplacementNamed(AppRoutes.home);
-              // Navigate to orders tab
+              Navigator.of(context).pushReplacementNamed(
+                AppRoutes.home,
+                arguments: 2,
+              );
             },
           ),
         ],

@@ -74,7 +74,9 @@ class GloryBurgerApp extends StatelessWidget {
 /// Manages tab switching between Home, Cart, Orders, and Profile.
 /// This widget is displayed after the splash screen completes.
 class AppShell extends StatefulWidget {
-  const AppShell({super.key});
+  const AppShell({super.key, this.initialIndex = 0});
+
+  final int initialIndex;
 
   @override
   State<AppShell> createState() => _AppShellState();
@@ -82,8 +84,14 @@ class AppShell extends StatefulWidget {
 
 class _AppShellState extends State<AppShell> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  int _currentIndex = 0;
+  late int _currentIndex;
   String _selectedPaymentMethod = 'Credit/Debit Card';
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.initialIndex.clamp(0, 3);
+  }
 
   /// Handles tab selection from the bottom navigation bar
   void _onTabSelected(int index) {
