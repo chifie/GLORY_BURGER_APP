@@ -12,6 +12,7 @@ class OrderModel {
   final String address;
   final String status;
   final String paymentMethod;
+  final String? paymentPhone; // Phone number for mobile money payment
   final DateTime orderDate;
 
   const OrderModel({
@@ -25,6 +26,7 @@ class OrderModel {
     required this.address,
     this.status = 'Pending',
     this.paymentMethod = 'M-Pesa',
+    this.paymentPhone, // New optional field for payment number
     required this.orderDate,
   });
 
@@ -40,6 +42,7 @@ class OrderModel {
     String? address,
     String? status,
     String? paymentMethod,
+    String? paymentPhone, // New field
     DateTime? orderDate,
   }) {
     return OrderModel(
@@ -53,6 +56,7 @@ class OrderModel {
       address: address ?? this.address,
       status: status ?? this.status,
       paymentMethod: paymentMethod ?? this.paymentMethod,
+      paymentPhone: paymentPhone ?? this.paymentPhone,
       orderDate: orderDate ?? this.orderDate,
     );
   }

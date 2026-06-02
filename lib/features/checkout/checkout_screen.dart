@@ -23,6 +23,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _addressController = TextEditingController();
+  final _paymentPhoneController = TextEditingController();
   String _selectedPaymentMethod = 'M-Pesa';
   bool _isPlacing = false;
 
@@ -64,6 +65,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     _nameController.dispose();
     _phoneController.dispose();
     _addressController.dispose();
+    _paymentPhoneController.dispose();
     super.dispose();
   }
 
@@ -255,6 +257,35 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         }).toList(),
                       ),
                     ),
+
+                    // ── Payment Phone Number (only for mobile payments) ──
+                    if (_isMobilePaymentMethod(_selectedPaymentMethod)) ...[
+                      const SizedBox(height: 24),
+                      const Text(
+                        'Payment Information',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.darkCharcoal,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      CustomTextField(
+                        label: 'Payment Phone Number',
+                        hint: 'e.g. 0712 345 678',
+                        controller: _paymentPhoneController,
+                        keyboardType: TextInputType.phone,
+                        prefixIcon:
+                            const Icon(Icons.phone_iphone_outlined, size: 20),
+                        validator: (value) {
+                          if (_isMobilePaymentMethod(_selectedPaymentMethod) &&
+                              (value == null || !Helpers.isValidPhone(value))) {
+                            return 'Please enter a valid phone number for payment';
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
                     const SizedBox(height: 24),
 
                     // ── Order Summary ────────────────────────────
@@ -477,10 +508,28 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
+  /// Checks if the selected payment method is a mobile money method
+  bool _isMobilePaymentMethod(String method) {
+    return ['M-Pesa', 'HaloPesa', 'Mix by Yas', 'Airtel Money']
+        .contains(method);
+  }
+
   /// Validates the form and places the order
   Future<void> _placeOrder(
       BuildContext context, CartProvider cartProvider) async {
     if (!_formKey.currentState!.validate()) return;
+
+    // If mobile payment is selected and payment phone is empty, show error
+    if (_isMobilePaymentMethod(_selectedPaymentMethod) &&
+        _paymentPhoneController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter your payment phone number'),
+          backgroundColor: AppColors.primaryRed,
+        ),
+      );
+      return;
+    }
 
     setState(() => _isPlacing = true);
 
@@ -499,6 +548,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       phone: _phoneController.text.trim(),
       address: _addressController.text.trim(),
       paymentMethod: _selectedPaymentMethod,
+      paymentPhone: _isMobilePaymentMethod(_selectedPaymentMethod)
+          ? _paymentPhoneController.text.trim()
+          : null,
     );
 
     // Clear the cart after successful order
