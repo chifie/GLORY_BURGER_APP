@@ -69,7 +69,8 @@ class FoodCard extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 3),
                             decoration: BoxDecoration(
-                              color: AppColors.primaryRed.withValues(alpha: 0.9),
+                              color:
+                                  AppColors.primaryRed.withValues(alpha: 0.9),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: const Row(
@@ -168,7 +169,8 @@ class FoodCard extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppColors.primaryRed.withValues(alpha: 0.3),
+                                  color: AppColors.primaryRed
+                                      .withValues(alpha: 0.3),
                                   blurRadius: 6,
                                   offset: const Offset(0, 2),
                                 ),
@@ -221,12 +223,6 @@ class FoodCard extends StatelessWidget {
     switch (category) {
       case 'Burgers':
         return Icons.lunch_dining;
-      case 'Pizza':
-        return Icons.local_pizza;
-      case 'Drinks':
-        return Icons.local_drink;
-      case 'Fries':
-        return Icons.fastfood;
       default:
         return Icons.restaurant;
     }

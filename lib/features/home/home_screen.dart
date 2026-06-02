@@ -15,7 +15,9 @@ import 'widgets/search_bar_widget.dart';
 /// Displays a banner, search bar, food categories, popular items,
 /// and category-filtered food items.
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final VoidCallback? onMenuTap;
+
+  const HomeScreen({super.key, this.onMenuTap});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -52,18 +54,26 @@ class _HomeScreenState extends State<HomeScreen> {
             pinned: true,
             elevation: 0,
             backgroundColor: AppColors.primaryRed,
-            title: Row(
+            leading: IconButton(
+              icon: const Icon(
+                Icons.menu_rounded,
+                color: AppColors.white,
+              ),
+              tooltip: 'Menu',
+              onPressed: widget.onMenuTap,
+            ),
+            title: const Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(
+                Icon(
                   Icons.lunch_dining,
                   color: AppColors.accentGold,
                   size: 24,
                 ),
-                const SizedBox(width: 8),
+                SizedBox(width: 8),
                 Text(
                   AppConstants.appName,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w800,
                     color: AppColors.white,
@@ -276,7 +286,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Icon(
                                   _getCategoryIcon(food.category),
                                   size: 36,
-                                  color: AppColors.primaryRed.withValues(alpha: 0.4),
+                                  color: AppColors.primaryRed
+                                      .withValues(alpha: 0.4),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
@@ -298,7 +309,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               Icon(
                                 _getCategoryIcon(food.category),
                                 size: 36,
-                                color: AppColors.primaryRed.withValues(alpha: 0.4),
+                                color:
+                                    AppColors.primaryRed.withValues(alpha: 0.4),
                               ),
                               const SizedBox(height: 4),
                               Text(
@@ -320,7 +332,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 6, vertical: 2),
                             decoration: BoxDecoration(
-                              color: AppColors.primaryRed.withValues(alpha: 0.85),
+                              color:
+                                  AppColors.primaryRed.withValues(alpha: 0.85),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: const Text(
@@ -405,7 +418,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 borderRadius: BorderRadius.circular(8),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: AppColors.primaryRed.withValues(alpha: 0.3),
+                                    color: AppColors.primaryRed
+                                        .withValues(alpha: 0.3),
                                     blurRadius: 4,
                                     offset: const Offset(0, 2),
                                   ),
@@ -436,12 +450,6 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (category) {
       case 'Burgers':
         return Icons.lunch_dining;
-      case 'Pizza':
-        return Icons.local_pizza;
-      case 'Drinks':
-        return Icons.local_drink;
-      case 'Fries':
-        return Icons.fastfood;
       default:
         return Icons.restaurant;
     }

@@ -48,7 +48,7 @@ class OrdersScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
+          const Icon(
             Icons.receipt_long_outlined,
             size: 80,
             color: AppColors.lightGrey,
@@ -348,7 +348,8 @@ class OrdersScreen extends StatelessWidget {
                 height: isCurrent ? 28 : 22,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: isCompleted ? AppColors.primaryRed : AppColors.lightGrey,
+                  color:
+                      isCompleted ? AppColors.primaryRed : AppColors.lightGrey,
                   border: isCurrent
                       ? Border.all(
                           color: AppColors.primaryRed.withValues(alpha: 0.3),

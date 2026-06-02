@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'app_routes.dart';
 import '../features/splash/splash_screen.dart';
 import '../main.dart'; // Import AppShell
-import '../features/home/home_screen.dart';
 import '../features/food_details/food_details_screen.dart';
 import '../features/cart/cart_screen.dart';
 import '../features/checkout/checkout_screen.dart';

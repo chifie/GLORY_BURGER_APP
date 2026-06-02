@@ -60,7 +60,7 @@ class CartScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
+          const Icon(
             Icons.shopping_cart_outlined,
             size: 80,
             color: AppColors.lightGrey,
@@ -208,10 +208,8 @@ class CartScreen extends StatelessWidget {
             // ── Quantity Controls ──────────────────────────────
             QuantitySelector(
               quantity: cartItem.quantity,
-              onIncrease: () =>
-                  cartProvider.increaseQuantity(cartItem.food.id),
-              onDecrease: () =>
-                  cartProvider.decreaseQuantity(cartItem.food.id),
+              onIncrease: () => cartProvider.increaseQuantity(cartItem.food.id),
+              onDecrease: () => cartProvider.decreaseQuantity(cartItem.food.id),
               compact: true,
             ),
           ],
@@ -252,9 +250,8 @@ class CartScreen extends StatelessWidget {
               cartProvider.deliveryFee == 0
                   ? 'FREE'
                   : Helpers.formatPrice(cartProvider.deliveryFee),
-              valueColor: cartProvider.deliveryFee == 0
-                  ? AppColors.successGreen
-                  : null,
+              valueColor:
+                  cartProvider.deliveryFee == 0 ? AppColors.successGreen : null,
             ),
             const SizedBox(height: 12),
 
@@ -329,12 +326,6 @@ class CartScreen extends StatelessWidget {
     switch (category) {
       case 'Burgers':
         return Icons.lunch_dining;
-      case 'Pizza':
-        return Icons.local_pizza;
-      case 'Drinks':
-        return Icons.local_drink;
-      case 'Fries':
-        return Icons.fastfood;
       default:
         return Icons.restaurant;
     }

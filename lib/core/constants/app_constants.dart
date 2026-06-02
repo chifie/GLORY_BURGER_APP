@@ -37,9 +37,6 @@ class AppConstants {
   // ── Food Categories ───────────────────────────────────────────
   static const List<String> categories = [
     'Burgers',
-    'Pizza',
-    'Drinks',
-    'Fries',
   ];
 
   // ── Asset Paths ───────────────────────────────────────────────

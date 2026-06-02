@@ -29,8 +29,9 @@ Future<void> main() async {
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.light, // White icons for dark red header
-    statusBarBrightness: Brightness.dark,  // For iOS dark status bar
+    statusBarIconBrightness:
+        Brightness.light, // White icons for dark red header
+    statusBarBrightness: Brightness.dark, // For iOS dark status bar
   ));
 
   runApp(
@@ -80,16 +81,9 @@ class AppShell extends StatefulWidget {
 }
 
 class _AppShellState extends State<AppShell> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   int _currentIndex = 0;
   String _selectedPaymentMethod = 'Credit/Debit Card';
-
-  // The main screens for each tab
-  final List<Widget> _screens = const [
-    HomeScreen(),
-    CartScreen(),
-    OrdersScreen(),
-    ProfileScreen(),
-  ];
 
   /// Handles tab selection from the bottom navigation bar
   void _onTabSelected(int index) {
@@ -100,7 +94,15 @@ class _AppShellState extends State<AppShell> {
 
   @override
   Widget build(BuildContext context) {
+    final screens = [
+      HomeScreen(onMenuTap: () => _scaffoldKey.currentState?.openDrawer()),
+      const CartScreen(),
+      const OrdersScreen(),
+      const ProfileScreen(),
+    ];
+
     return Scaffold(
+      key: _scaffoldKey,
       drawer: Drawer(
         child: Column(
           children: [
@@ -243,7 +245,7 @@ class _AppShellState extends State<AppShell> {
       backgroundColor: AppColors.offWhite,
       body: IndexedStack(
         index: _currentIndex,
-        children: _screens,
+        children: screens,
       ),
       bottomNavigationBar: Consumer<CartProvider>(
         builder: (context, cartProvider, _) {
@@ -282,7 +284,10 @@ class _AppShellState extends State<AppShell> {
             const SizedBox(height: 16),
             const Text(
               'Select Payment Method',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.darkCharcoal),
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.darkCharcoal),
             ),
             const SizedBox(height: 4),
             const Text(
@@ -485,7 +490,7 @@ class _AppShellState extends State<AppShell> {
                 ],
               ),
             ),
-            Icon(
+            const Icon(
               Icons.chevron_right_rounded,
               color: AppColors.lightGrey,
               size: 20,

@@ -96,12 +96,13 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                                 Icon(
                                   _getCategoryIcon(food.category),
                                   size: 100,
-                                  color: AppColors.primaryRed.withValues(alpha: 0.3),
+                                  color: AppColors.primaryRed
+                                      .withValues(alpha: 0.3),
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
                                   food.category,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 14,
                                     color: AppColors.mediumGrey,
                                     fontWeight: FontWeight.w500,
@@ -120,12 +121,13 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                               Icon(
                                 _getCategoryIcon(food.category),
                                 size: 100,
-                                color: AppColors.primaryRed.withValues(alpha: 0.3),
+                                color:
+                                    AppColors.primaryRed.withValues(alpha: 0.3),
                               ),
                               const SizedBox(height: 8),
                               Text(
                                 food.category,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 14,
                                   color: AppColors.mediumGrey,
                                   fontWeight: FontWeight.w500,
@@ -372,12 +374,6 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
     switch (category) {
       case 'Burgers':
         return Icons.lunch_dining;
-      case 'Pizza':
-        return Icons.local_pizza;
-      case 'Drinks':
-        return Icons.local_drink;
-      case 'Fries':
-        return Icons.fastfood;
       default:
         return Icons.restaurant;
     }

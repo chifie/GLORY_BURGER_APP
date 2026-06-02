@@ -202,8 +202,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                     decoration: BoxDecoration(
                                       color: (method['color'] as Color)
                                           .withValues(alpha: 0.12),
-                                      borderRadius:
-                                          BorderRadius.circular(10),
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Icon(
                                       method['icon'] as IconData,
@@ -240,8 +239,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       width: 22,
                                       height: 22,
                                       decoration: BoxDecoration(
-                                        color:
-                                            method['color'] as Color,
+                                        color: method['color'] as Color,
                                         shape: BoxShape.circle,
                                       ),
                                       child: const Icon(
@@ -372,8 +370,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             'Delivery Fee',
                             cartProvider.deliveryFee == 0
                                 ? 'FREE'
-                                : Helpers.formatPrice(
-                                    cartProvider.deliveryFee),
+                                : Helpers.formatPrice(cartProvider.deliveryFee),
                             valueColor: cartProvider.deliveryFee == 0
                                 ? AppColors.successGreen
                                 : null,
@@ -490,7 +487,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     // Simulate a short processing delay
     await Future.delayed(const Duration(seconds: 1));
 
-    if (!mounted) return;
+    if (!context.mounted) return;
 
     final orderProvider = context.read<OrderProvider>();
     final orderId = orderProvider.placeOrder(
@@ -509,7 +506,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
     setState(() => _isPlacing = false);
 
-    if (!mounted) return;
+    if (!context.mounted) return;
 
     // Show success dialog
     _showOrderSuccessDialog(context, orderId);
@@ -589,12 +586,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     switch (category) {
       case 'Burgers':
         return Icons.lunch_dining;
-      case 'Pizza':
-        return Icons.local_pizza;
-      case 'Drinks':
-        return Icons.local_drink;
-      case 'Fries':
-        return Icons.fastfood;
       default:
         return Icons.restaurant;
     }
