@@ -7,3 +7,4 @@ export 'food_provider.dart';
 export 'cart_provider.dart';
 export 'order_provider.dart';
 export 'profile_provider.dart';
+export 'theme_provider.dart';
