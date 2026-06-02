@@ -152,14 +152,19 @@ class FoodCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          '${food.price.toInt()} TZS',
-                          style: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w800,
-                            color: AppColors.primaryRed,
+                        Flexible(
+                          child: Text(
+                            '${food.price.toInt()} TZS',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w800,
+                              color: AppColors.primaryRed,
+                            ),
                           ),
                         ),
+                        const SizedBox(width: 6),
                         GestureDetector(
                           onTap: onAddToCart,
                           child: Container(
