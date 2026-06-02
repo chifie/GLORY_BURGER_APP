@@ -62,6 +62,17 @@ class FoodProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Returns food items grouped by sub-category
+  Map<String, List<FoodItem>> getFoodsBySubCategory(List<FoodItem> foods) {
+    final Map<String, List<FoodItem>> grouped = {};
+    for (final food in foods) {
+      final sub = food.subCategory.isNotEmpty ? food.subCategory : 'All';
+      grouped.putIfAbsent(sub, () => []);
+      grouped[sub]!.add(food);
+    }
+    return grouped;
+  }
+
   /// Returns a specific food item by its ID.
   FoodItem? getFoodById(String id) {
     try {

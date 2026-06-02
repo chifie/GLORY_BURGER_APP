@@ -6,6 +6,7 @@ class FoodItem {
   final String description;
   final double price;
   final String category;
+  final String subCategory; // e.g. 'Classic', 'Specialty', 'Premium'
   final String imageUrl;
   final double rating;
   final int reviewCount;
@@ -18,6 +19,7 @@ class FoodItem {
     required this.description,
     required this.price,
     required this.category,
+    this.subCategory = '',
     this.imageUrl = '',
     this.rating = 4.0,
     this.reviewCount = 0,
@@ -32,6 +34,7 @@ class FoodItem {
     String? description,
     double? price,
     String? category,
+    String? subCategory,
     String? imageUrl,
     double? rating,
     int? reviewCount,
@@ -44,6 +47,7 @@ class FoodItem {
       description: description ?? this.description,
       price: price ?? this.price,
       category: category ?? this.category,
+      subCategory: subCategory ?? this.subCategory,
       imageUrl: imageUrl ?? this.imageUrl,
       rating: rating ?? this.rating,
       reviewCount: reviewCount ?? this.reviewCount,

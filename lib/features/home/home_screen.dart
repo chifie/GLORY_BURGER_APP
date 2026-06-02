@@ -233,6 +233,10 @@ class _HomeScreenState extends State<HomeScreen> {
     final foods = foodProvider.filteredFoods;
     final category = foodProvider.selectedCategory;
 
+    // Group foods by sub-category
+    final grouped = foodProvider.getFoodsBySubCategory(foods);
+    final subCategories = grouped.keys.toList();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -240,7 +244,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
-            'All $category',
+            'Our $category',
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
@@ -248,30 +252,95 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 16),
 
-        // Food items grid
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 1,
-              childAspectRatio: 0.95,
-              mainAxisSpacing: 14,
-            ),
-            itemCount: foods.length,
-            itemBuilder: (context, index) {
-              final food = foods[index];
-              return StaggeredEntrance(
-                index: index,
-                child: _buildGridFoodCard(context, food),
-              );
-            },
-          ),
-        ),
+        // Sub-category sections
+        ...subCategories.map((subCategory) {
+          final subFoods = grouped[subCategory]!;
+          return _buildSubCategorySection(subCategory, subFoods);
+        }),
       ],
+    );
+  }
+
+  /// Builds a sub-category section with a header and 2-column grid
+  Widget _buildSubCategorySection(String subCategory, List<FoodItem> foods) {
+    final iconData = subCategory == 'Classic'
+        ? Icons.star
+        : subCategory == 'Specialty'
+            ? Icons.auto_awesome
+            : Icons.workspace_premium;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Sub-category header
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                Icon(
+                  iconData,
+                  size: 18,
+                  color: AppColors.primaryRed,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  subCategory,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.darkCharcoal,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryRed.withValues(alpha: 0.08),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    '${foods.length}',
+                    style: const TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.primaryRed,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 12),
+
+          // 2-column grid for food items
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.85,
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 12,
+              ),
+              itemCount: foods.length,
+              itemBuilder: (context, index) {
+                final food = foods[index];
+                return StaggeredEntrance(
+                  index: index,
+                  child: _buildGridFoodCard(context, food),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 
