@@ -26,7 +26,8 @@ class AppColors {
   static const Color white = Color(0xFFFFFFFF);
 
   /// Burger Cream - light section backgrounds.
-  static const Color offWhite = Color(0xFFFFFBEB); // #FFFBEB
+  static const Color burgerCream = Color(0xFFFFFBEB); // #FFFBEB
+  static const Color offWhite = burgerCream; // Alias
 
   /// Light grey — dividers, disabled fills
   static const Color lightGrey = Color(0xFFE8E8E8);
@@ -35,14 +36,16 @@ class AppColors {
   static const Color mediumGrey = Color(0xFF9E9E9E);
 
   /// Burger Dark - primary text, deep surfaces.
-  static const Color darkCharcoal = Color(0xFF18181B); // #18181B (Zinc-900)
+  static const Color burgerDark = Color(0xFF18181B); // #18181B (Zinc-900)
+  static const Color darkCharcoal = burgerDark; // Alias
 
   /// Near-black — body text emphasis
   static const Color nearBlack = Color(0xFF1A1A1A);
 
   // ── Semantic Colors ───────────────────────────────────────────
-  /// Success green — delivered status
-  static const Color successGreen = Color(0xFF22C55E); // #22C55E
+  /// Burger Green — Success states and badges.
+  static const Color burgerGreen = Color(0xFF22C55E); // #22C55E
+  static const Color successGreen = burgerGreen; // Alias
 
   /// Warning orange — preparing / on-delivery status
   static const Color warningOrange = Color(0xFFFF9800);
@@ -58,12 +61,12 @@ class AppColors {
   static const LinearGradient brandGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [primaryRed, burgerOrange],
+    colors: [burgerRed, burgerOrange],
   );
 
   /// Text Highlight Gradient: Yellow-White-Yellow
   static const LinearGradient textHighlightGradient = LinearGradient(
-    colors: [accentGold, white, accentGold],
+    colors: [burgerYellow, white, burgerYellow],
     stops: [0.0, 0.5, 1.0],
   );
 
@@ -72,7 +75,7 @@ class AppColors {
   static Color redGlow(double opacity) => const Color(0xFFD6232A).withValues(alpha: opacity);
   
   /// Yellow Shadow Glow: 0 0 20px rgba(255, 204, 0, 0.3)
-  static Color yellowGlow(double opacity) => const Color(0xFFFFCC00).withValues(alpha: opacity);
+  static Color yellowGlow(double opacity) => burgerYellow.withValues(alpha: opacity);
 
   /// Glassmorphism Styles
   static BoxDecoration glassDecoration({double blur = 8.0}) {

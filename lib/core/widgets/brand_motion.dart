@@ -92,6 +92,54 @@ class _FloatingImageState extends State<FloatingImage>
   }
 }
 
+class Wiggle extends StatefulWidget {
+  final Widget child;
+  final bool autoStart;
+
+  const Wiggle({super.key, required this.child, this.autoStart = true});
+
+  @override
+  State<Wiggle> createState() => _WiggleState();
+}
+
+class _WiggleState extends State<Wiggle> with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _rotate;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    _rotate = TweenSequence<double>([
+      TweenSequenceItem(tween: Tween(begin: 0, end: 0.12), weight: 25),
+      TweenSequenceItem(tween: Tween(begin: 0.12, end: -0.12), weight: 50),
+      TweenSequenceItem(tween: Tween(begin: -0.12, end: 0), weight: 25),
+    ]).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+
+    if (widget.autoStart) {
+      Future.delayed(const Duration(milliseconds: 500), () => _controller.forward());
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _rotate,
+      builder: (context, child) => Transform.rotate(angle: _rotate.value, child: widget.child),
+      child: widget.child,
+    );
+  }
+}
+
 class PulseGlow extends StatefulWidget {
   final Widget child;
   final Color color;

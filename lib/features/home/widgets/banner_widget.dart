@@ -68,7 +68,6 @@ class _BannerWidgetState extends State<BannerWidget>
                       BoxShadow(
                         color: AppColors.redGlow(0.3),
                         blurRadius: 20,
-                        offset: const Offset(0, 10),
                       ),
                     ],
                   ),
@@ -116,19 +115,19 @@ class _BannerWidgetState extends State<BannerWidget>
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 6),
                                 decoration: BoxDecoration(
-                                  color: AppColors.accentGold,
+                                  color: AppColors.burgerYellow,
                                   borderRadius: BorderRadius.circular(20),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: AppColors.yellowGlow(0.4),
-                                      blurRadius: 8,
+                                      color: AppColors.yellowGlow(0.3),
+                                      blurRadius: 20,
                                     )
                                   ],
                                 ),
                                 child: const Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text('✨', style: TextStyle(fontSize: 12)),
+                                    Wiggle(child: Text('✨', style: TextStyle(fontSize: 12))),
                                     SizedBox(width: 4),
                                     Text(
                                       'FRESHLY MADE DAILY',
@@ -171,30 +170,24 @@ class _BannerWidgetState extends State<BannerWidget>
                           ),
                         ),
 
-                        // Burger image: Constrained to 65% of card width
+                        // Burger image: Constrained to exactly 65% width
                         Positioned(
-                          right: -20,
-                          bottom: -10,
-                          top: -10,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: AppColors.white.withValues(alpha: 0.05),
-                          ),
-                          child: LayoutBuilder(
-                            builder: (context, constraints) {
-                              return FloatingImage(
-                                child: Image.asset(
-                                  'lib/assets/images/burgers/Classicburger.jpg',
-                                  width: constraints.maxHeight * 1.1,
-                                  fit: BoxFit.contain,
-                                  errorBuilder: (_, __, ___) => const Icon(
-                                    Icons.lunch_dining,
-                                    size: 80,
-                                    color: Colors.white24,
-                                  ),
+                          right: 0,
+                          top: 0,
+                          bottom: 0,
+                          child: FractionallySizedBox(
+                            widthFactor: 0.65,
+                            child: FloatingImage(
+                              child: Image.asset(
+                                'lib/assets/images/burgers/Classicburger.jpg',
+                                fit: BoxFit.contain,
+                                errorBuilder: (_, __, ___) => const Icon(
+                                  Icons.lunch_dining,
+                                  size: 80,
+                                  color: Colors.white24,
                                 ),
-                              );
-                            },
+                              ),
+                            ),
                           ),
                         ),
                       ],
