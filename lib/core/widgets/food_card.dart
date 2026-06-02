@@ -222,6 +222,16 @@ class _PlaceholderIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (food.category == 'Burgers') {
+      return Center(
+        child: Image.asset(
+          'lib/assets/images/logo.png',
+          width: 44,
+          height: 44,
+          fit: BoxFit.contain,
+        ),
+      );
+    }
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

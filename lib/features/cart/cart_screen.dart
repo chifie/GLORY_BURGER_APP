@@ -159,20 +159,36 @@ class CartScreen extends StatelessWidget {
                         cartItem.food.imageUrl,
                         fit: BoxFit.cover,
                         errorBuilder: (_, __, ___) => Center(
-                          child: Icon(
-                            _getCategoryIcon(cartItem.food.category),
-                            size: 30,
-                            color: AppColors.primaryRed.withValues(alpha: 0.4),
-                          ),
+                          child: cartItem.food.category == 'Burgers'
+                              ? Image.asset(
+                                  'lib/assets/images/logo.png',
+                                  width: 30,
+                                  height: 30,
+                                  fit: BoxFit.contain,
+                                )
+                              : Icon(
+                                  _getCategoryIcon(cartItem.food.category),
+                                  size: 30,
+                                  color: AppColors.primaryRed
+                                      .withValues(alpha: 0.4),
+                                ),
                         ),
                       )
                     : Center(
-                        child: Icon(
-                          _getCategoryIcon(cartItem.food.category),
-                          size: 30,
-                          color: AppColors.primaryRed.withValues(alpha: 0.4),
-                        ),
-                      ),
+                      child: cartItem.food.category == 'Burgers'
+                          ? Image.asset(
+                              'lib/assets/images/logo.png',
+                              width: 30,
+                              height: 30,
+                              fit: BoxFit.contain,
+                            )
+                          : Icon(
+                              _getCategoryIcon(cartItem.food.category),
+                              size: 30,
+                              color: AppColors.primaryRed
+                                  .withValues(alpha: 0.4),
+                            ),
+                    ),
               ),
             ),
             const SizedBox(width: 12),

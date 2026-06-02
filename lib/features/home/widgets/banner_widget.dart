@@ -181,10 +181,11 @@ class _BannerWidgetState extends State<BannerWidget>
                               child: Image.asset(
                                 'lib/assets/images/burgers/Classicburger.jpg',
                                 fit: BoxFit.contain,
-                                errorBuilder: (_, __, ___) => const Icon(
-                                  Icons.lunch_dining,
-                                  size: 80,
-                                  color: Colors.white24,
+                                errorBuilder: (_, __, ___) => Image.asset(
+                                  'lib/assets/images/logo.png',
+                                  width: 80,
+                                  height: 80,
+                                  fit: BoxFit.contain,
                                 ),
                               ),
                             ),

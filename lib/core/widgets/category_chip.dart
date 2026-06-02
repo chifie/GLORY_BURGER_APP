@@ -35,11 +35,7 @@ class CategoryChip extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             // Category icon
-            Icon(
-              _getCategoryIcon(label),
-              size: 16,
-              color: isSelected ? AppColors.white : AppColors.mediumGrey,
-            ),
+            _getCategoryIcon(label, isSelected),
             const SizedBox(width: 6),
             // Category label
             Text(
@@ -57,12 +53,20 @@ class CategoryChip extends StatelessWidget {
   }
 
   /// Returns an appropriate icon for each food category
-  IconData _getCategoryIcon(String category) {
-    switch (category) {
-      case 'Burgers':
-        return Icons.lunch_dining;
-      default:
-        return Icons.restaurant;
+  Widget _getCategoryIcon(String category, bool isSelected) {
+    if (category == 'Burgers') {
+      return Image.asset(
+        'lib/assets/images/logo.png',
+        width: 16,
+        height: 16,
+        fit: BoxFit.contain,
+        color: isSelected ? AppColors.white : null,
+      );
     }
+    return Icon(
+      Icons.restaurant,
+      size: 16,
+      color: isSelected ? AppColors.white : AppColors.mediumGrey,
+    );
   }
 }

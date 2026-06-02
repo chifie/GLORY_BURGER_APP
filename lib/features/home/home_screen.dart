@@ -95,16 +95,17 @@ class _HomeScreenState extends State<HomeScreen> {
               tooltip: 'Menu',
               onPressed: widget.onMenuTap,
             ),
-            title: const Row(
+            title: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  Icons.lunch_dining,
-                  color: AppColors.accentGold,
-                  size: 24,
+                Image.asset(
+                  'lib/assets/images/logo.png',
+                  width: 28,
+                  height: 28,
+                  fit: BoxFit.contain,
                 ),
-                SizedBox(width: 8),
-                Text(
+                const SizedBox(width: 8),
+                const Text(
                   AppConstants.appName,
                   style: TextStyle(
                     fontSize: 20,
@@ -336,12 +337,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Icon(
-                                          _getCategoryIcon(food.category),
-                                          size: 36,
-                                          color: AppColors.primaryRed
-                                              .withValues(alpha: 0.4),
-                                        ),
+                                        if (food.category == 'Burgers')
+                                          Image.asset(
+                                            'lib/assets/images/logo.png',
+                                            width: 36,
+                                            height: 36,
+                                            fit: BoxFit.contain,
+                                          )
+                                        else
+                                          Icon(
+                                            _getCategoryIcon(food.category),
+                                            size: 36,
+                                            color: AppColors.primaryRed
+                                                .withValues(alpha: 0.4),
+                                          ),
                                         const SizedBox(height: 4),
                                         Text(
                                           food.category,
@@ -362,12 +371,20 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(
-                                  _getCategoryIcon(food.category),
-                                  size: 36,
-                                  color: AppColors.primaryRed
-                                      .withValues(alpha: 0.4),
-                                ),
+                                if (food.category == 'Burgers')
+                                  Image.asset(
+                                    'lib/assets/images/logo.png',
+                                    width: 36,
+                                    height: 36,
+                                    fit: BoxFit.contain,
+                                  )
+                                else
+                                  Icon(
+                                    _getCategoryIcon(food.category),
+                                    size: 36,
+                                    color: AppColors.primaryRed
+                                        .withValues(alpha: 0.4),
+                                  ),
                                 const SizedBox(height: 4),
                                 Text(
                                   food.category,

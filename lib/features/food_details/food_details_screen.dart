@@ -93,12 +93,20 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 const SizedBox(height: 40),
-                                Icon(
-                                  _getCategoryIcon(food.category),
-                                  size: 100,
-                                  color: AppColors.primaryRed
-                                      .withValues(alpha: 0.3),
-                                ),
+                                if (food.category == 'Burgers')
+                                  Image.asset(
+                                    'lib/assets/images/logo.png',
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.contain,
+                                  )
+                                else
+                                  Icon(
+                                    _getCategoryIcon(food.category),
+                                    size: 100,
+                                    color: AppColors.primaryRed
+                                        .withValues(alpha: 0.3),
+                                  ),
                                 const SizedBox(height: 8),
                                 Text(
                                   food.category,
@@ -118,12 +126,20 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const SizedBox(height: 40),
-                              Icon(
-                                _getCategoryIcon(food.category),
-                                size: 100,
-                                color:
-                                    AppColors.primaryRed.withValues(alpha: 0.3),
-                              ),
+                              if (food.category == 'Burgers')
+                                Image.asset(
+                                  'lib/assets/images/logo.png',
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.contain,
+                                )
+                              else
+                                Icon(
+                                  _getCategoryIcon(food.category),
+                                  size: 100,
+                                  color: AppColors.primaryRed
+                                      .withValues(alpha: 0.3),
+                                ),
                               const SizedBox(height: 8),
                               Text(
                                 food.category,
