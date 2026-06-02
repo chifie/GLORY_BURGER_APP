@@ -64,6 +64,12 @@ class AppColors {
     colors: [primaryRed, burgerOrange],
   );
 
+  /// Text Highlight Gradient: Yellow-White-Yellow
+  static const LinearGradient textHighlightGradient = LinearGradient(
+    colors: [accentGold, white, accentGold],
+    stops: [0.0, 0.5, 1.0],
+  );
+
   // ── Shadow & Glow Helpers ─────────────────────────────────────
   /// Red Shadow Glow: 0 0 20px rgba(214, 35, 42, 0.3)
   static Color redGlow(double opacity) => const Color(0xFFD6232A).withValues(alpha: opacity);

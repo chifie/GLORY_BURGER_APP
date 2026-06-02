@@ -115,7 +115,7 @@ class _BannerWidgetState extends State<BannerWidget>
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 6),
                                 decoration: BoxDecoration(
-                                  color: AppColors.burgerYellow,
+                                  color: AppColors.accentGold,
                                   borderRadius: BorderRadius.circular(20),
                                   boxShadow: [
                                     BoxShadow(
