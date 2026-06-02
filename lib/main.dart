@@ -13,6 +13,7 @@ import 'providers/food_provider.dart';
 import 'providers/cart_provider.dart';
 import 'providers/order_provider.dart';
 import 'providers/profile_provider.dart';
+import 'providers/theme_provider.dart';
 import 'routes/app_routes.dart';
 import 'routes/route_generator.dart';
 
@@ -43,6 +44,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => OrderProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
       ],
       child: const GloryBurgerApp(),
     ),
@@ -56,16 +58,22 @@ class GloryBurgerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Glory Burger',
-      debugShowCheckedModeBanner: false,
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, _) {
+        return MaterialApp(
+          title: 'Glory Burger',
+          debugShowCheckedModeBanner: false,
 
-      // Theme configuration (Material Design 3 with KFC-inspired colors)
-      theme: AppTheme.lightTheme,
+          // Theme configuration (Material Design 3 with KFC-inspired colors)
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: themeProvider.themeMode,
 
-      // Route configuration
-      initialRoute: AppRoutes.initialRoute,
-      onGenerateRoute: RouteGenerator.generateRoute,
+          // Route configuration
+          initialRoute: AppRoutes.initialRoute,
+          onGenerateRoute: RouteGenerator.generateRoute,
+        );
+      },
     );
   }
 }
@@ -102,6 +110,9 @@ class _AppShellState extends State<AppShell> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
+    final isDarkMode = themeProvider.isDarkMode;
+
     final screens = [
       HomeScreen(onMenuTap: () => _scaffoldKey.currentState?.openDrawer()),
       const CartScreen(),
@@ -236,6 +247,24 @@ class _AppShellState extends State<AppShell> {
               onTap: () => Navigator.pop(context),
             ),
 
+            // ── Theme Toggle ────────────────────────────────────
+            const Padding(
+              padding: EdgeInsets.only(left: 16, top: 8, bottom: 4),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'APPEARANCE',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.mediumGrey,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+              ),
+            ),
+            _buildThemeToggle(isDarkMode, themeProvider),
+
             const Spacer(),
 
             // ── Logout ────────────────────────────────────────
@@ -263,6 +292,84 @@ class _AppShellState extends State<AppShell> {
             cartItemCount: cartProvider.itemCount,
           );
         },
+      ),
+    );
+  }
+
+  /// Builds the theme toggle drawer item
+  Widget _buildThemeToggle(bool isDarkMode, ThemeProvider themeProvider) {
+    return InkWell(
+      onTap: () {
+        themeProvider.toggleTheme();
+        Navigator.pop(context);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        child: Row(
+          children: [
+            Container(
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(
+                color: AppColors.offWhite,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(
+                isDarkMode ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+                color: AppColors.mediumGrey,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    isDarkMode ? 'Light Mode' : 'Dark Mode',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.darkCharcoal,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    isDarkMode ? 'Switch to light theme' : 'Switch to dark theme',
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color: AppColors.mediumGrey,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: 44,
+              height: 24,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: isDarkMode
+                    ? AppColors.primaryRed.withValues(alpha: 0.3)
+                    : AppColors.lightGrey,
+              ),
+              child: AnimatedAlign(
+                duration: const Duration(milliseconds: 200),
+                alignment:
+                    isDarkMode ? Alignment.centerRight : Alignment.centerLeft,
+                child: Container(
+                  width: 20,
+                  height: 20,
+                  margin: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: isDarkMode ? AppColors.primaryRed : AppColors.mediumGrey,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
