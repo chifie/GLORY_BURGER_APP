@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_constants.dart';
+import '../../core/widgets/brand_motion.dart';
 import '../../models/food_item.dart';
 import '../../providers/food_provider.dart';
 import '../../providers/cart_provider.dart';
@@ -45,6 +46,38 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.offWhite,
+      floatingActionButton: PulseGlow(
+        borderRadius: BorderRadius.circular(999),
+        child: PressScale(
+          onTap: () => Navigator.of(context).pushNamed(AppRoutes.cart),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+            decoration: BoxDecoration(
+              gradient: AppColors.brandGradient,
+              borderRadius: BorderRadius.circular(999),
+            ),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.shopping_bag_outlined,
+                  color: AppColors.white,
+                  size: 20,
+                ),
+                SizedBox(width: 8),
+                Text(
+                  'Order Now',
+                  style: TextStyle(
+                    color: AppColors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
       body: CustomScrollView(
         slivers: [
           // ── App Bar with Glory Burger branding ────────────────
@@ -223,15 +256,17 @@ class _HomeScreenState extends State<HomeScreen> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 0.72,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
+              crossAxisCount: 1,
+              childAspectRatio: 0.95,
+              mainAxisSpacing: 14,
             ),
             itemCount: foods.length,
             itemBuilder: (context, index) {
               final food = foods[index];
-              return _buildGridFoodCard(context, food);
+              return StaggeredEntrance(
+                index: index,
+                child: _buildGridFoodCard(context, food),
+              );
             },
           ),
         ),
@@ -241,7 +276,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   /// Builds an individual food card for the grid layout
   Widget _buildGridFoodCard(BuildContext context, FoodItem food) {
-    return GestureDetector(
+    return PressScale(
       onTap: () {
         Navigator.of(context).pushNamed(
           AppRoutes.foodDetails,
@@ -252,34 +287,78 @@ class _HomeScreenState extends State<HomeScreen> {
         tag: 'food_${food.id}',
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.white,
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: AppColors.darkCharcoal.withValues(alpha: 0.08),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
+                color: AppColors.redGlow(0.16),
+                blurRadius: 20,
+                offset: const Offset(0, 6),
               ),
             ],
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Food image
-              Expanded(
-                flex: 3,
-                child: ClipRRect(
-                  borderRadius:
-                      const BorderRadius.vertical(top: Radius.circular(16)),
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      Container(color: AppColors.offWhite),
+          child: GlassSurface(
+            borderRadius: BorderRadius.circular(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Food image
+                Expanded(
+                  flex: 3,
+                  child: ClipRRect(
+                    borderRadius:
+                        const BorderRadius.vertical(top: Radius.circular(16)),
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                AppColors.accentGold.withValues(alpha: 0.22),
+                                AppColors.burgerOrange.withValues(alpha: 0.08),
+                              ],
+                            ),
+                          ),
+                        ),
                       if (food.imageUrl.isNotEmpty)
-                        Image.asset(
-                          food.imageUrl,
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => Center(
+                          Center(
+                            child: FractionallySizedBox(
+                              widthFactor: 0.65,
+                              heightFactor: 0.82,
+                              child: FloatingImage(
+                                child: Image.asset(
+                                  food.imageUrl,
+                                  fit: BoxFit.contain,
+                                  errorBuilder: (_, __, ___) => Center(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          _getCategoryIcon(food.category),
+                                          size: 36,
+                                          color: AppColors.primaryRed
+                                              .withValues(alpha: 0.4),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          food.category,
+                                          style: const TextStyle(
+                                            fontSize: 10,
+                                            color: AppColors.mediumGrey,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        else
+                          Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -300,29 +379,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                             ),
                           ),
-                        )
-                      else
-                        Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                _getCategoryIcon(food.category),
-                                size: 36,
-                                color:
-                                    AppColors.primaryRed.withValues(alpha: 0.4),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                food.category,
-                                style: const TextStyle(
-                                  fontSize: 10,
-                                  color: AppColors.mediumGrey,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                       // Popular badge
                       if (food.isPopular)
                         Positioned(
@@ -332,18 +388,28 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 6, vertical: 2),
                             decoration: BoxDecoration(
-                              color:
-                                  AppColors.primaryRed.withValues(alpha: 0.85),
-                              borderRadius: BorderRadius.circular(4),
+                              gradient: AppColors.brandGradient,
+                              borderRadius: BorderRadius.circular(999),
                             ),
-                            child: const Text(
-                              'POPULAR',
-                              style: TextStyle(
-                                fontSize: 7,
-                                fontWeight: FontWeight.w800,
-                                color: AppColors.white,
-                                letterSpacing: 0.5,
-                              ),
+                            child: const Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.auto_awesome,
+                                  color: AppColors.accentGold,
+                                  size: 10,
+                                ),
+                                SizedBox(width: 2),
+                                Text(
+                                  'POPULAR',
+                                  style: TextStyle(
+                                    fontSize: 7,
+                                    fontWeight: FontWeight.w800,
+                                    color: AppColors.white,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -352,11 +418,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
-              // Food info
-              Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
+                // Food info
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(14),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -401,8 +467,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: AppColors.primaryRed,
                             ),
                           ),
-                          GestureDetector(
-                            onTap: () {
+                          PulseGlow(
+                            minBlur: 4,
+                            maxBlur: 10,
+                            borderRadius: BorderRadius.circular(999),
+                            child: PressScale(
+                              onTap: () {
                               context.read<CartProvider>().addToCart(food);
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -411,24 +481,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               );
                             },
-                            child: Container(
-                              padding: const EdgeInsets.all(7),
-                              decoration: BoxDecoration(
-                                color: AppColors.primaryRed,
-                                borderRadius: BorderRadius.circular(8),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppColors.primaryRed
-                                        .withValues(alpha: 0.3),
-                                    blurRadius: 4,
-                                    offset: const Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                              child: const Icon(
-                                Icons.add,
-                                color: AppColors.white,
-                                size: 16,
+                              child: Container(
+                                padding: const EdgeInsets.all(9),
+                                decoration: BoxDecoration(
+                                  gradient: AppColors.brandGradient,
+                                  borderRadius: BorderRadius.circular(999),
+                                ),
+                                child: const Icon(
+                                  Icons.add,
+                                  color: AppColors.white,
+                                  size: 16,
+                                ),
                               ),
                             ),
                           ),
@@ -439,6 +502,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ],
+            ),
           ),
         ),
       ),

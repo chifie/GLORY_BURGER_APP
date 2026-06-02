@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
 
 /// Material Design 3 theme configuration for Glory Burger.
-/// Uses KFC-inspired red, white, and dark charcoal palette.
+/// Uses the ketchup-and-mustard red, orange, yellow, cream, and zinc palette.
 class AppTheme {
   AppTheme._();
 
@@ -18,9 +18,9 @@ class AppTheme {
       onPrimary: AppColors.white,
       primaryContainer: Color(0xFFFFDAD6),
       onPrimaryContainer: AppColors.darkRed,
-      secondary: AppColors.accentGold,
-      onSecondary: AppColors.nearBlack,
-      secondaryContainer: Color(0xFFFFE082),
+      secondary: AppColors.burgerOrange,
+      onSecondary: AppColors.white,
+      secondaryContainer: AppColors.accentGold,
       onSecondaryContainer: AppColors.darkGold,
       tertiary: AppColors.darkCharcoal,
       onTertiary: AppColors.white,
@@ -52,7 +52,7 @@ class AppTheme {
         elevation: 2,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(28),
         ),
         backgroundColor: AppColors.primaryRed,
         foregroundColor: AppColors.white,
@@ -69,7 +69,7 @@ class AppTheme {
       style: OutlinedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(28),
         ),
         side: const BorderSide(color: AppColors.primaryRed, width: 1.5),
         foregroundColor: AppColors.primaryRed,
@@ -99,7 +99,7 @@ class AppTheme {
       ),
       color: AppColors.white,
       surfaceTintColor: AppColors.white,
-      shadowColor: AppColors.darkCharcoal.withValues(alpha: 0.1),
+      shadowColor: AppColors.redGlow(0.16),
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     ),
 
@@ -179,7 +179,7 @@ class AppTheme {
       foregroundColor: AppColors.white,
       elevation: 4,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(16)),
+        borderRadius: BorderRadius.all(Radius.circular(28)),
       ),
     ),
 

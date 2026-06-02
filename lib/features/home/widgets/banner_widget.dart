@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../../core/widgets/brand_motion.dart';
 
 /// Restaurant banner widget shown at the top of the Home screen.
 /// Displays a promotional message with animated elements.
@@ -53,14 +54,10 @@ class _BannerWidgetState extends State<BannerWidget>
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                gradient: const LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [AppColors.primaryRed, AppColors.darkRed],
-                ),
+                gradient: AppColors.brandGradient,
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.primaryRed.withValues(alpha: 0.35),
+                    color: AppColors.redGlow(0.3),
                     blurRadius: 20,
                     offset: const Offset(0, 8),
                   ),
@@ -113,13 +110,13 @@ class _BannerWidgetState extends State<BannerWidget>
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(
-                                Icons.local_fire_department,
+                                Icons.auto_awesome,
                                 color: AppColors.nearBlack,
                                 size: 14,
                               ),
                               SizedBox(width: 4),
                               Text(
-                                'HOT DEAL',
+                                'FRESHLY MADE DAILY',
                                 style: TextStyle(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w800,
@@ -132,13 +129,19 @@ class _BannerWidgetState extends State<BannerWidget>
                         const SizedBox(height: 14),
 
                         // Banner title
-                        const Text(
-                          'Get 20% Off',
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w900,
-                            color: AppColors.white,
-                            letterSpacing: -0.5,
+                        ShaderMask(
+                          blendMode: BlendMode.srcIn,
+                          shaderCallback: (bounds) {
+                            return AppColors.textHighlightGradient
+                                .createShader(bounds);
+                          },
+                          child: const Text(
+                            'Get 20% Off',
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: 0,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 6),
@@ -161,15 +164,11 @@ class _BannerWidgetState extends State<BannerWidget>
                     bottom: -10,
                     child: Hero(
                       tag: 'banner_burger',
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          bottomRight: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        ),
+                      child: FloatingImage(
                         child: Image.asset(
                           'lib/assets/images/burgers/Classicburger.jpg',
                           width: 150,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.contain,
                           errorBuilder: (_, __, ___) => const Icon(
                             Icons.lunch_dining,
                             size: 80,

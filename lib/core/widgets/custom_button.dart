@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
+import 'brand_motion.dart';
 
 /// A reusable primary action button with the Glory Burger branding.
 /// Supports loading state, icon, and custom sizing.
@@ -51,7 +52,7 @@ class CustomButton extends StatelessWidget {
             ),
             backgroundColor: backgroundColor ?? AppColors.primaryRed,
             foregroundColor: textColor ?? AppColors.white,
-            elevation: 2,
+            elevation: 0,
           );
 
     // Build the child widget (icon + label or loading spinner)
@@ -94,16 +95,46 @@ class CustomButton extends StatelessWidget {
       );
     }
 
-    return isOutlined
-        ? OutlinedButton(
+    if (isOutlined) {
+      return PressScale(
+        onTap: isLoading ? null : onPressed,
+        child: AbsorbPointer(
+          child: OutlinedButton(
             onPressed: isLoading ? null : onPressed,
             style: buttonStyle,
             child: child,
-          )
-        : ElevatedButton(
-            onPressed: isLoading ? null : onPressed,
-            style: buttonStyle,
-            child: child,
-          );
+          ),
+        ),
+      );
+    }
+
+    return PulseGlow(
+      borderRadius: BorderRadius.circular(borderRadius),
+      child: PressScale(
+        onTap: isLoading ? null : onPressed,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: backgroundColor == null ? AppColors.brandGradient : null,
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(borderRadius),
+          ),
+          child: AbsorbPointer(
+            child: ElevatedButton(
+              onPressed: isLoading ? null : onPressed,
+              style: buttonStyle.copyWith(
+                backgroundColor:
+                    const WidgetStatePropertyAll(Colors.transparent),
+                shadowColor: const WidgetStatePropertyAll(Colors.transparent),
+                disabledBackgroundColor:
+                    const WidgetStatePropertyAll(Colors.transparent),
+                disabledForegroundColor:
+                    WidgetStatePropertyAll(textColor ?? AppColors.white),
+              ),
+              child: child,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
