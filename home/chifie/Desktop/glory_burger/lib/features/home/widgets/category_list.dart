@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_constants.dart';
-import '../../../../core/widgets/category_chip.dart';
-import '../../../../providers/food_provider.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_constants.dart';
+import '../../../core/widgets/category_chip.dart';
+import '../../../providers/food_provider.dart';
 
 /// Horizontal scrollable list of food category chips.
 /// Allows the user to filter food items by category.
@@ -23,7 +23,7 @@ class CategoryList extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Categories',
                     style: TextStyle(
                       fontSize: 18,
@@ -31,7 +31,7 @@ class CategoryList extends StatelessWidget {
                       color: AppColors.darkCharcoal,
                     ),
                   ),
-                  SizedBox(height: 6),
+                  const SizedBox(height: 6),
                   Row(
                     children: [
                       Image.asset(
@@ -40,15 +40,15 @@ class CategoryList extends StatelessWidget {
                         height: 20,
                         fit: BoxFit.contain,
                       ),
-                      SizedBox(width: 6),
+                      const SizedBox(width: 6),
                       const Text(
-                      'Burgers',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.primaryRed,
+                        'Burgers',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primaryRed,
+                        ),
                       ),
-                    ),
                     ],
                   ),
                 ],

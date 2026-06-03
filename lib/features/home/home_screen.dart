@@ -286,7 +286,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // Each card width = (screen width - horizontal padding - gaps for 4 items) / 4
     final screenWidth = MediaQuery.of(context).size.width;
     final cardWidth = (screenWidth - 16 - 16 - (3 * 8)) / 4; // paddings + gaps
-    final cardHeight = 100 + 80; // fixed image height + info area
+    const cardHeight = 100 + 80; // fixed image height + info area
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 24),
