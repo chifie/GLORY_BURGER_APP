@@ -94,11 +94,22 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                               children: [
                                 const SizedBox(height: 40),
                                 if (food.category == 'Burgers')
-                                  Image.asset(
-                                    'lib/assets/images/logo.png',
+                                  Container(
                                     width: 100,
                                     height: 100,
-                                    fit: BoxFit.contain,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppColors.white,
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: Image.asset(
+                                        'lib/assets/images/logo.png',
+                                        width: 100,
+                                        height: 100,
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
                                   )
                                 else
                                   Icon(
@@ -127,11 +138,22 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                             children: [
                               const SizedBox(height: 40),
                               if (food.category == 'Burgers')
-                                Image.asset(
-                                  'lib/assets/images/logo.png',
+                                Container(
                                   width: 100,
                                   height: 100,
-                                  fit: BoxFit.contain,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: AppColors.white,
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Image.asset(
+                                      'lib/assets/images/logo.png',
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
                                 )
                               else
                                 Icon(

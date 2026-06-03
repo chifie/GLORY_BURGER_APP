@@ -18,8 +18,10 @@ class CategoryList extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Section title with burger icon below
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

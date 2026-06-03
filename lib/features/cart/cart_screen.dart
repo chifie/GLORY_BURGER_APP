@@ -160,11 +160,22 @@ class CartScreen extends StatelessWidget {
                         fit: BoxFit.cover,
                         errorBuilder: (_, __, ___) => Center(
                           child: cartItem.food.category == 'Burgers'
-                              ? Image.asset(
-                                  'lib/assets/images/logo.png',
+                              ? Container(
                                   width: 30,
                                   height: 30,
-                                  fit: BoxFit.contain,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: AppColors.white,
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Image.asset(
+                                      'lib/assets/images/logo.png',
+                                      width: 30,
+                                      height: 30,
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
                                 )
                               : Icon(
                                   _getCategoryIcon(cartItem.food.category),
@@ -176,11 +187,22 @@ class CartScreen extends StatelessWidget {
                       )
                     : Center(
                       child: cartItem.food.category == 'Burgers'
-                          ? Image.asset(
-                              'lib/assets/images/logo.png',
+                          ? Container(
                               width: 30,
                               height: 30,
-                              fit: BoxFit.contain,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColors.white,
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(15),
+                                child: Image.asset(
+                                  'lib/assets/images/logo.png',
+                                  width: 30,
+                                  height: 30,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
                             )
                           : Icon(
                               _getCategoryIcon(cartItem.food.category),

@@ -224,11 +224,22 @@ class _PlaceholderIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     if (food.category == 'Burgers') {
       return Center(
-        child: Image.asset(
-          'lib/assets/images/logo.png',
+        child: Container(
           width: 44,
           height: 44,
-          fit: BoxFit.contain,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: AppColors.white,
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(22),
+            child: Image.asset(
+              'lib/assets/images/logo.png',
+              width: 44,
+              height: 44,
+              fit: BoxFit.contain,
+            ),
+          ),
         ),
       );
     }
