@@ -1,9 +1,10 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/widgets/brand_motion.dart';
 
 /// Restaurant banner widget shown at the top of the Home screen.
-/// Displays a background image with "FRESHLY MADE DAILY!" text below it.
+/// Displays a full-width background image with slow rotation animation.
 class BannerWidget extends StatelessWidget {
   const BannerWidget({super.key});
 
@@ -24,50 +25,27 @@ class BannerWidget extends StatelessWidget {
             ),
           ],
         ),
-        child: Column(
-          children: [
-            // ── Background Image ──────────────────────────────
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(24),
-              ),
-              child: SizedBox(
-                width: double.infinity,
-                height: 190,
-                child: Image.asset(
-                  'lib/assets/images/burgers/background.png',
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => const SizedBox.shrink(),
-                ),
-              ),
-            ),
-
-            // ── Text Below Image ──────────────────────────────
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: const BorderRadius.vertical(
-                  bottom: Radius.circular(24),
-                ),
-              ),
-              child: ShaderMask(
-                blendMode: BlendMode.srcIn,
-                shaderCallback: (rect) =>
-                    AppColors.textHighlightGradient.createShader(rect),
-                child: const Text(
-                  'FRESHLY MADE DAILY!',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 1.2,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(24),
+          child: SizedBox(
+            width: double.infinity,
+            height: 260,
+            child: TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0, end: 2 * math.pi),
+              duration: const Duration(seconds: 20),
+              builder: (context, value, child) {
+                return Transform.rotate(
+                  angle: value,
+                  child: Image.asset(
+                    'lib/assets/images/burgers/background.png',
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => const SizedBox.shrink(),
                   ),
-                ),
-              ),
+                );
+              },
+              onEnd: () {},
             ),
-          ],
+          ),
         ),
       ),
     );
