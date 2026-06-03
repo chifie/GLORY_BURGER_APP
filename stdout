@@ -1,0 +1,1 @@
+[info] Use 'const' with the constructor to improve performance. Try adding the 'const' keyword to the constructor invocation (/home/chifie/Desktop/glory_burger/lib/features/home/widgets/banner_widget.dart:49:27)
