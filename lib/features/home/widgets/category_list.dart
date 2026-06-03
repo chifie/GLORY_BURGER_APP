@@ -17,16 +17,26 @@ class CategoryList extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Section title
+            // Section title with burger icon
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                'Categories',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.darkCharcoal,
-                ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.lunch_dining_rounded,
+                    size: 22,
+                    color: AppColors.primaryRed,
+                  ),
+                  SizedBox(width: 8),
+                  Text(
+                    'Categories',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.darkCharcoal,
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 12),
