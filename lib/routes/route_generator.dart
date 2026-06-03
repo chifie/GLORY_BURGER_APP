@@ -20,6 +20,7 @@ class RouteGenerator {
 
     switch (settings.name) {
       case AppRoutes.splash:
+      case '/': // Handle root route (e.g., when pressing back from AppShell)
         return _buildRoute(const SplashScreen(), settings);
 
       case AppRoutes.appShell:
