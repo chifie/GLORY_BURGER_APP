@@ -263,13 +263,19 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  /// Builds a sub-category section with a header and 2-column grid
+  /// Builds a sub-category section with a header and horizontally scrollable cards.
+  /// Shows 4 items per scroll view, scrolls left/right to reveal more.
   Widget _buildSubCategorySection(String subCategory, List<FoodItem> foods) {
     final iconData = subCategory == 'Classic'
         ? Icons.star
         : subCategory == 'Specialty'
             ? Icons.auto_awesome
             : Icons.workspace_premium;
+
+    // Each card width = (screen width - horizontal padding - gaps for 4 items) / 4
+    final screenWidth = MediaQuery.of(context).size.width;
+    final cardWidth = (screenWidth - 16 - 16 - (3 * 8)) / 4; // paddings + gaps
+    final cardHeight = 100 + 80; // fixed image height + info area
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 24),
@@ -317,24 +323,26 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           const SizedBox(height: 12),
 
-          // 2-column grid for food items
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.85,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
-              ),
+          // Horizontally scrollable cards - 4 items visible per scroll
+          SizedBox(
+            height: cardHeight + 8,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               itemCount: foods.length,
               itemBuilder: (context, index) {
                 final food = foods[index];
-                return StaggeredEntrance(
-                  index: index,
-                  child: _buildGridFoodCard(context, food),
+                return Padding(
+                  padding: EdgeInsets.only(
+                    right: index < foods.length - 1 ? 8 : 0,
+                  ),
+                  child: StaggeredEntrance(
+                    index: index,
+                    child: SizedBox(
+                      width: cardWidth,
+                      child: _buildGridFoodCard(context, food),
+                    ),
+                  ),
                 );
               },
             ),
@@ -344,7 +352,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  /// Builds an individual food card for the grid layout
+  /// Builds an individual food card for the horizontal scroll layout.
+  /// Uses fixed heights to prevent overflow (no Expanded widgets).
   Widget _buildGridFoodCard(BuildContext context, FoodItem food) {
     return PressScale(
       onTap: () {
@@ -370,13 +379,15 @@ class _HomeScreenState extends State<HomeScreen> {
             borderRadius: BorderRadius.circular(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                // Food image
-                Expanded(
-                  flex: 3,
-                  child: ClipRRect(
-                    borderRadius:
-                        const BorderRadius.vertical(top: Radius.circular(16)),
+                // Food image - fixed height to prevent overflow
+                ClipRRect(
+                  borderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(16)),
+                  child: SizedBox(
+                    height: 100,
+                    width: double.infinity,
                     child: Stack(
                       fit: StackFit.expand,
                       children: [
@@ -394,130 +405,81 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       if (food.imageUrl.isNotEmpty)
                           Center(
-                            child: FractionallySizedBox(
-                              widthFactor: 0.65,
-                              heightFactor: 0.82,
-                              child: FloatingImage(
-                                child: Image.asset(
-                                  food.imageUrl,
-                                  fit: BoxFit.contain,
-                                  errorBuilder: (_, __, ___) => Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        if (food.category == 'Burgers')
-                                          Image.asset(
-                                            'lib/assets/images/logo.png',
-                                            width: 36,
-                                            height: 36,
-                                            fit: BoxFit.contain,
-                                          )
-                                        else
-                                          Icon(
-                                            _getCategoryIcon(food.category),
-                                            size: 36,
-                                            color: AppColors.primaryRed
-                                                .withValues(alpha: 0.4),
-                                          ),
-                                        const SizedBox(height: 4),
-                                        Text(
-                                          food.category,
-                                          style: const TextStyle(
-                                            fontSize: 10,
-                                            color: AppColors.mediumGrey,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Image.asset(
+                                food.imageUrl,
+                                fit: BoxFit.contain,
+                                errorBuilder: (_, __, ___) => Icon(
+                                  _getCategoryIcon(food.category),
+                                  size: 28,
+                                  color: AppColors.primaryRed
+                                      .withValues(alpha: 0.4),
                                 ),
                               ),
                             ),
                           )
                         else
                           Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                if (food.category == 'Burgers')
-                                  Image.asset(
-                                    'lib/assets/images/logo.png',
-                                    width: 36,
-                                    height: 36,
-                                    fit: BoxFit.contain,
-                                  )
-                                else
+                            child: Icon(
+                              _getCategoryIcon(food.category),
+                              size: 28,
+                              color: AppColors.primaryRed
+                                  .withValues(alpha: 0.4),
+                            ),
+                          ),
+                        // Popular badge
+                        if (food.isPopular)
+                          Positioned(
+                            top: 4,
+                            left: 4,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 4, vertical: 1),
+                              decoration: BoxDecoration(
+                                gradient: AppColors.brandGradient,
+                                borderRadius: BorderRadius.circular(999),
+                              ),
+                              child: const Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
                                   Icon(
-                                    _getCategoryIcon(food.category),
-                                    size: 36,
-                                    color: AppColors.primaryRed
-                                        .withValues(alpha: 0.4),
+                                    Icons.auto_awesome,
+                                    color: AppColors.accentGold,
+                                    size: 8,
                                   ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  food.category,
-                                  style: const TextStyle(
-                                    fontSize: 10,
-                                    color: AppColors.mediumGrey,
+                                  SizedBox(width: 2),
+                                  Text(
+                                    'POPULAR',
+                                    style: TextStyle(
+                                      fontSize: 6,
+                                      fontWeight: FontWeight.w800,
+                                      color: AppColors.white,
+                                      letterSpacing: 0.3,
+                                    ),
                                   ),
-                                ),
                               ],
+                              ),
                             ),
                           ),
-                      // Popular badge
-                      if (food.isPopular)
-                        Positioned(
-                          top: 6,
-                          left: 6,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 6, vertical: 2),
-                            decoration: BoxDecoration(
-                              gradient: AppColors.brandGradient,
-                              borderRadius: BorderRadius.circular(999),
-                            ),
-                            child: const Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.auto_awesome,
-                                  color: AppColors.accentGold,
-                                  size: 10,
-                                ),
-                                SizedBox(width: 2),
-                                Text(
-                                  'POPULAR',
-                                  style: TextStyle(
-                                    fontSize: 7,
-                                    fontWeight: FontWeight.w800,
-                                    color: AppColors.white,
-                                    letterSpacing: 0.5,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
                     ],
+                      ),
+                    ),
                   ),
-                ),
-              ),
 
-                // Food info
-                Expanded(
-                  flex: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.all(14),
+                // Food info - fixed padding, no Expanded
+                Padding(
+                  padding: const EdgeInsets.all(10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         food.name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontSize: 13,
+                          fontSize: 11,
                           fontWeight: FontWeight.w700,
                           color: AppColors.darkCharcoal,
                         ),
@@ -528,47 +490,53 @@ class _HomeScreenState extends State<HomeScreen> {
                           const Icon(
                             Icons.star,
                             color: AppColors.accentGold,
-                            size: 11,
+                            size: 9,
                           ),
                           const SizedBox(width: 2),
                           Text(
                             '${food.rating}',
                             style: const TextStyle(
-                              fontSize: 10,
+                              fontSize: 9,
                               fontWeight: FontWeight.w600,
                               color: AppColors.darkCharcoal,
                             ),
                           ),
                         ],
                       ),
-                      const Spacer(),
+                      const SizedBox(height: 6),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            '${food.price.toInt()} TZS',
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w800,
-                              color: AppColors.primaryRed,
+                          Flexible(
+                            child: Text(
+                              '${food.price.toInt()} TZS',
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w800,
+                                color: AppColors.primaryRed,
+                              ),
                             ),
                           ),
                           PulseGlow(
-                            minBlur: 4,
-                            maxBlur: 10,
+                            minBlur: 3,
+                            maxBlur: 8,
                             borderRadius: BorderRadius.circular(999),
                             child: PressScale(
                               onTap: () {
-                              context.read<CartProvider>().addToCart(food);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('${food.name} added to cart'),
-                                  duration: AppConstants.snackbarDuration,
-                                ),
-                              );
-                            },
+                                context
+                                    .read<CartProvider>()
+                                    .addToCart(food);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        '${food.name} added to cart'),
+                                    duration: AppConstants.snackbarDuration,
+                                  ),
+                                );
+                              },
                               child: Container(
-                                padding: const EdgeInsets.all(9),
+                                padding: const EdgeInsets.all(6),
                                 decoration: BoxDecoration(
                                   gradient: AppColors.brandGradient,
                                   borderRadius: BorderRadius.circular(999),
@@ -576,7 +544,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: const Icon(
                                   Icons.add,
                                   color: AppColors.white,
-                                  size: 16,
+                                  size: 12,
                                 ),
                               ),
                             ),
@@ -586,7 +554,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-              ),
             ],
             ),
           ),
