@@ -3,7 +3,7 @@ import '../../core/constants/app_colors.dart';
 import '../../routes/app_routes.dart';
 
 /// Splash screen displayed when the app launches.
-/// Shows the Glory Burger logo for 3 seconds then navigates to Home.
+/// Shows the burger splash image with "GLORY BURGER" branding.
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -23,27 +23,22 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
 
-    // Configure animation controller for the splash sequence
     _controller = AnimationController(
       vsync: this,
       duration: _animationDuration,
     );
 
-    // Fade-in animation
     _fadeIn = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeIn),
     );
 
-    // Scale-up animation for the logo
     _scaleIn = Tween<double>(begin: 0.5, end: 1.0).animate(
       CurvedAnimation(parent: _controller, curve: Curves.elasticOut),
     );
 
     _controller.forward();
 
-    // Navigate to Home screen after splash duration
-    // Ensures we wait at least for the animation + a small buffer
-    Future.delayed(const Duration(milliseconds: 2000), () {
+    Future.delayed(const Duration(milliseconds: 2500), () {
       if (mounted) {
         Navigator.of(context).pushReplacementNamed(AppRoutes.appShell);
       }
@@ -76,29 +71,64 @@ class _SplashScreenState extends State<SplashScreen>
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // ── Hero App Logo ────────────────────────────
+                    // ── Splash Image ────────────────────────────
                     Hero(
                       tag: 'app-logo',
                       child: Image.asset(
-                        'lib/assets/images/logo.png',
-                        width: 220,
-                        height: 220,
+                        'lib/assets/images/burgers/splash.png',
+                        width: 280,
+                        height: 280,
                         fit: BoxFit.contain,
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 32),
 
-                    // ── App Tagline ─────────────────────────────
+                    // ── GLORY BURGER Branding ──────────────────
+                    ShaderMask(
+                      blendMode: BlendMode.srcIn,
+                      shaderCallback: (Rect bounds) {
+                        return LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            AppColors.accentGold,
+                            AppColors.white,
+                            AppColors.accentGold,
+                          ],
+                          stops: const [0.0, 0.5, 1.0],
+                        ).createShader(bounds);
+                      },
+                      child: const Text(
+                        'GLORY BURGER',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 38,
+                          fontWeight: FontWeight.w900,
+                          color: AppColors.white,
+                          letterSpacing: 4,
+                          shadows: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 12,
+                              offset: Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+
+                    // ── Tagline ─────────────────────────────
                     Text(
                       'Taste the Glory!',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.white.withValues(alpha: 0.85),
-                        letterSpacing: 2,
+                        color: AppColors.accentGold.withValues(alpha: 0.85),
+                        letterSpacing: 3,
                       ),
                     ),
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 50),
 
                     // ── Loading Indicator ────────────────────────
                     SizedBox(
