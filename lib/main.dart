@@ -149,8 +149,14 @@ class _AppShellState extends State<AppShell> {
                   backgroundColor: Colors.white,
                   child: Padding(
                     padding: EdgeInsets.all(6.0),
-                    child: Image(
-                      image: AssetImage('lib/assets/images/logo.png'),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(22)),
+                      child: Image(
+                        image: AssetImage('lib/assets/images/logo.png'),
+                        width: 44,
+                        height: 44,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ),

@@ -55,12 +55,23 @@ class CategoryChip extends StatelessWidget {
   /// Returns an appropriate icon for each food category
   Widget _getCategoryIcon(String category, bool isSelected) {
     if (category == 'Burgers') {
-      return Image.asset(
-        'lib/assets/images/logo.png',
+      return Container(
         width: 16,
         height: 16,
-        fit: BoxFit.contain,
-        color: isSelected ? AppColors.white : null,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: isSelected ? AppColors.white : AppColors.offWhite,
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Image.asset(
+            'lib/assets/images/logo.png',
+            width: 16,
+            height: 16,
+            fit: BoxFit.contain,
+            color: isSelected ? AppColors.primaryRed : null,
+          ),
+        ),
       );
     }
     return Icon(
