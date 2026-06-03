@@ -123,7 +123,8 @@ class _AppShellState extends State<AppShell> {
     return Scaffold(
       key: _scaffoldKey,
       drawer: Drawer(
-        child: Column(
+        child: ListView(
+          padding: EdgeInsets.zero,
           children: [
             // ── Drawer Header ────────────────────────────────
             UserAccountsDrawerHeader(
@@ -264,8 +265,6 @@ class _AppShellState extends State<AppShell> {
               ),
             ),
             _buildThemeToggle(isDarkMode, themeProvider),
-
-            const Spacer(),
 
             // ── Logout ────────────────────────────────────────
             const Divider(indent: 16, endIndent: 16),
