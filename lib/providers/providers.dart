@@ -10,3 +10,4 @@ export 'profile_provider.dart';
 export 'theme_provider.dart';
 export 'language_provider.dart';
 export 'location_provider.dart';
+export 'auth_provider.dart';

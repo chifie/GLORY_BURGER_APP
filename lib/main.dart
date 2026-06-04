@@ -17,6 +17,7 @@ import 'providers/profile_provider.dart';
 import 'providers/theme_provider.dart';
 import 'providers/language_provider.dart';
 import 'providers/location_provider.dart';
+import 'providers/auth_provider.dart';
 import 'routes/app_routes.dart';
 import 'routes/route_generator.dart';
 
@@ -48,6 +49,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => OrderProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
       ],
       child: const GloryBurgerApp(),
     ),
@@ -342,7 +344,10 @@ class _AppShellState extends State<AppShell> {
               icon: Icons.logout_rounded,
               label: 'nav.logout'.tr(languageCode),
               isDestructive: true,
-              onTap: () => Navigator.pop(context),
+              onTap: () {
+                context.read<AuthProvider>().logout();
+                Navigator.pushReplacementNamed(context, AppRoutes.login);
+              },
             ),
             const SizedBox(height: 16),
           ],

@@ -136,7 +136,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       label: 'Full Name',
                       hint: 'Enter your full name',
                       controller: _nameController,
-                      textCapitalization: TextCapitalization.words,
                       prefixIcon:
                           const Icon(Icons.person_outline, size: 20),
                       validator: (value) {
@@ -342,7 +341,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             password: _passwordController.text,
                             confirmPassword: _confirmPasswordController.text,
                           );
-                          if (success && mounted) {
+                          if (!mounted) return;
+                          if (success) {
                             Navigator.of(context)
                                 .pushReplacementNamed(AppRoutes.appShell);
                           }

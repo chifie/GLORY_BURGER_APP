@@ -5,6 +5,8 @@ import '../../core/constants/app_constants.dart';
 import '../../core/widgets/custom_button.dart';
 import '../../core/widgets/custom_text_field.dart';
 import '../../providers/profile_provider.dart';
+import '../../providers/auth_provider.dart';
+import '../../routes/app_routes.dart';
 
 /// Profile screen displaying user information with edit functionality.
 /// Shows name, email, phone, and address with an edit toggle.
@@ -437,7 +439,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ElevatedButton(
             onPressed: () {
               Navigator.of(context).pop();
-              // In a real app, this would clear auth state
+              context.read<AuthProvider>().logout();
+              Navigator.of(context).pushReplacementNamed(AppRoutes.login);
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Logged out successfully'),

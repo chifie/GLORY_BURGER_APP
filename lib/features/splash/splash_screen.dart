@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../core/constants/app_colors.dart';
+import '../../providers/auth_provider.dart';
 import '../../routes/app_routes.dart';
 
 /// Splash screen displayed when the app launches.
@@ -40,7 +42,12 @@ class _SplashScreenState extends State<SplashScreen>
 
     Future.delayed(const Duration(milliseconds: 2500), () {
       if (mounted) {
-        Navigator.of(context).pushReplacementNamed(AppRoutes.appShell);
+        final authProvider = context.read<AuthProvider>();
+        if (authProvider.isLoggedIn) {
+          Navigator.of(context).pushReplacementNamed(AppRoutes.appShell);
+        } else {
+          Navigator.of(context).pushReplacementNamed(AppRoutes.login);
+        }
       }
     });
   }
