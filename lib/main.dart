@@ -120,7 +120,21 @@ class _AppShellState extends State<AppShell> {
       const ProfileScreen(),
     ];
 
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+        // If not on Home tab, go to Home tab first
+        if (_currentIndex != 0) {
+          setState(() {
+            _currentIndex = 0;
+          });
+          return;
+        }
+        // If on Home tab, exit the app
+        await SystemNavigator.pop();
+      },
+      child: Scaffold(
       key: _scaffoldKey,
       drawer: Drawer(
         child: ListView(
@@ -298,6 +312,7 @@ class _AppShellState extends State<AppShell> {
           );
         },
       ),
+    ),
     );
   }
 
