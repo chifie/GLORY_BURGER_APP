@@ -1,4 +1,5 @@
 /// Represents the user profile information for the Profile screen.
+/// All fields default to empty strings — no fake sample data.
 class UserProfile {
   final String name;
   final String email;
@@ -7,11 +8,11 @@ class UserProfile {
   final String address;
 
   const UserProfile({
-    this.name = 'John Doe',
-    this.email = 'john.doe@gloryburger.com',
-    this.phone = '+255 712 345 678',
+    this.name = '',
+    this.email = '',
+    this.phone = '',
     this.avatarUrl = '',
-    this.address = '123 Food Street, Dar es Salaam',
+    this.address = '',
   });
 
   /// Creates a copy with optional field overrides

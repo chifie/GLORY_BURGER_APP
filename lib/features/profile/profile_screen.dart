@@ -98,19 +98,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ],
                         ),
                         child: Center(
-                          child: Text(
-                            _getInitials(profileProvider.profile.name),
-                            style: const TextStyle(
-                              fontSize: 36,
-                              fontWeight: FontWeight.w800,
-                              color: AppColors.white,
-                            ),
-                          ),
+                          child: _buildAvatarContent(profileProvider.profile.name),
                         ),
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        profileProvider.profile.name,
+                        profileProvider.profile.name.isNotEmpty
+                            ? profileProvider.profile.name
+                            : 'Your Name',
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
@@ -119,7 +114,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        profileProvider.profile.email,
+                        profileProvider.profile.email.isNotEmpty
+                            ? profileProvider.profile.email
+                            : 'Add your email',
                         style: const TextStyle(
                           fontSize: 13,
                           color: AppColors.mediumGrey,
@@ -361,6 +358,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  /// Builds avatar content — shows initials if name exists, otherwise a person icon
+  Widget _buildAvatarContent(String name) {
+    if (name.trim().isEmpty) {
+      return const Icon(
+        Icons.person_rounded,
+        size: 46,
+        color: AppColors.white,
+      );
+    }
+    return Text(
+      _getInitials(name),
+      style: const TextStyle(
+        fontSize: 36,
+        fontWeight: FontWeight.w800,
+        color: AppColors.white,
+      ),
+    );
+  }
+
   /// Builds a single info row in the app info section
   Widget _buildInfoTile({
     required IconData icon,
@@ -412,8 +428,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   /// Extracts initials from a full name for the avatar
   String _getInitials(String name) {
-    final parts = name.trim().split(' ');
-    if (parts.length >= 2) {
+    final trimmed = name.trim();
+    if (trimmed.isEmpty) return '';
+    final parts = trimmed.split(' ');
+    if (parts.length >= 2 && parts[0].isNotEmpty && parts[1].isNotEmpty) {
       return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
     }
     return parts[0][0].toUpperCase();
