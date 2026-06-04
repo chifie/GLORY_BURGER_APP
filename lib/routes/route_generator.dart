@@ -9,6 +9,7 @@ import '../features/orders/orders_screen.dart';
 import '../features/profile/profile_screen.dart';
 import '../features/auth/login_screen.dart';
 import '../features/auth/register_screen.dart';
+import '../features/notifications/notifications_screen.dart';
 
 /// Route generator that maps route names to screen widgets.
 /// Used by MaterialApp.onGenerateRoute for centralized navigation.
@@ -54,6 +55,9 @@ class RouteGenerator {
 
       case AppRoutes.orders:
         return _buildRoute(const OrdersScreen(), settings);
+
+      case AppRoutes.notifications:
+        return _buildRoute(const NotificationsScreen(), settings);
 
       case AppRoutes.profile:
         return _buildRoute(const ProfileScreen(), settings);

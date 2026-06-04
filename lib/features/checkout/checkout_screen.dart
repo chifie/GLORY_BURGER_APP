@@ -7,6 +7,7 @@ import '../../core/widgets/custom_button.dart';
 import '../../core/widgets/custom_text_field.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/order_provider.dart';
+import '../../providers/notification_provider.dart';
 import '../../routes/app_routes.dart';
 
 /// Checkout screen for collecting customer details and confirming orders.
@@ -552,6 +553,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           ? _paymentPhoneController.text.trim()
           : null,
     );
+
+    // Trigger notification for the placed order
+    context
+        .read<NotificationProvider>()
+        .notifyOrderPlaced(orderId);
 
     // Clear the cart after successful order
     cartProvider.clearCart();

@@ -7,6 +7,7 @@ import '../../core/widgets/quantity_selector.dart';
 import '../../models/food_item.dart';
 import '../../providers/food_provider.dart';
 import '../../providers/cart_provider.dart';
+import '../../providers/notification_provider.dart';
 import '../../routes/app_routes.dart';
 
 /// Food Details screen showing full info about a selected food item.
@@ -389,6 +390,9 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
   /// Adds the food item to the cart with the selected quantity
   void _addToCart(BuildContext context, FoodItem food) {
     context.read<CartProvider>().addToCart(food, quantity: _quantity);
+    context
+        .read<NotificationProvider>()
+        .notifyItemAddedToCart('$_quantity× ${food.name}');
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

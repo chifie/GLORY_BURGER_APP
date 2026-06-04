@@ -13,6 +13,7 @@ class AppRoutes {
   static const String checkout = '/checkout';
   static const String orders = '/orders';
   static const String profile = '/profile';
+  static const String notifications = '/notifications';
 
   /// The initial route when the app launches
   static const String initialRoute = splash;

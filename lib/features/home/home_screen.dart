@@ -6,6 +6,7 @@ import '../../core/widgets/brand_motion.dart';
 import '../../models/food_item.dart';
 import '../../providers/food_provider.dart';
 import '../../providers/cart_provider.dart';
+import '../../providers/notification_provider.dart';
 import '../../routes/app_routes.dart';
 import 'widgets/banner_widget.dart';
 import 'widgets/category_list.dart';
@@ -128,6 +129,53 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             actions: [
+              // Notification bell with badge
+              Padding(
+                padding: const EdgeInsets.only(right: 4),
+                child: Consumer<NotificationProvider>(
+                  builder: (context, notifProvider, _) {
+                    return Stack(
+                      children: [
+                        IconButton(
+                          icon: const Icon(
+                            Icons.notifications_outlined,
+                            color: AppColors.white,
+                          ),
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushNamed(AppRoutes.notifications);
+                          },
+                        ),
+                        if (notifProvider.unreadCount > 0)
+                          Positioned(
+                            right: 6,
+                            top: 6,
+                            child: Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: const BoxDecoration(
+                                color: AppColors.accentGold,
+                                shape: BoxShape.circle,
+                              ),
+                              constraints: const BoxConstraints(
+                                minWidth: 18,
+                                minHeight: 18,
+                              ),
+                              child: Text(
+                                '${notifProvider.unreadCount}',
+                                style: const TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.nearBlack,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                      ],
+                    );
+                  },
+                ),
+              ),
               // Cart icon with badge
               Padding(
                 padding: const EdgeInsets.only(right: 8),
@@ -538,6 +586,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 context
                                     .read<CartProvider>()
                                     .addToCart(food);
+                                context
+                                    .read<NotificationProvider>()
+                                    .notifyItemAddedToCart(food.name);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
