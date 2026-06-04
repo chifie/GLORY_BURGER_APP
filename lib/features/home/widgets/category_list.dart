@@ -17,12 +17,37 @@ class CategoryList extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Section title with burger icon below
+            // Section title with rounded logo behind "Burgers"
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
                 children: [
+                  // Rounded logo container
+                  Container(
+                    width: 26,
+                    height: 26,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 4,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(13),
+                      child: Image.asset(
+                        'lib/assets/images/logo.png',
+                        width: 26,
+                        height: 26,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
                   const Text(
                     'Categories',
                     style: TextStyle(
@@ -30,26 +55,6 @@ class CategoryList extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                       color: AppColors.darkCharcoal,
                     ),
-                  ),
-                  const SizedBox(height: 6),
-                  Row(
-                    children: [
-                      Image.asset(
-                        'lib/assets/images/logo.png',
-                        width: 20,
-                        height: 20,
-                        fit: BoxFit.contain,
-                      ),
-                      const SizedBox(width: 6),
-                      const Text(
-                      'Burgers',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.primaryRed,
-                      ),
-                    ),
-                    ],
                   ),
                 ],
               ),
