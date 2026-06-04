@@ -21,7 +21,7 @@ class PressScale extends StatefulWidget {
 }
 
 class _PressScaleState extends State<PressScale> {
-  var _pressed = false;
+  bool _pressed = false;
 
   @override
   Widget build(BuildContext context) {
