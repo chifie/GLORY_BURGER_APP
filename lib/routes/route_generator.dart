@@ -7,6 +7,8 @@ import '../features/cart/cart_screen.dart';
 import '../features/checkout/checkout_screen.dart';
 import '../features/orders/orders_screen.dart';
 import '../features/profile/profile_screen.dart';
+import '../features/auth/login_screen.dart';
+import '../features/auth/register_screen.dart';
 
 /// Route generator that maps route names to screen widgets.
 /// Used by MaterialApp.onGenerateRoute for centralized navigation.
@@ -21,6 +23,12 @@ class RouteGenerator {
     switch (settings.name) {
       case AppRoutes.splash:
         return _buildRoute(const SplashScreen(), settings);
+
+      case AppRoutes.login:
+        return _buildRoute(const LoginScreen(), settings);
+
+      case AppRoutes.register:
+        return _buildRoute(const RegisterScreen(), settings);
 
       case AppRoutes.appShell:
       case AppRoutes.home:
