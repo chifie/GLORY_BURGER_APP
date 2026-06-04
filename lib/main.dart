@@ -1,4 +1,4 @@
-add import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
@@ -61,10 +61,12 @@ class GloryBurgerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languageCode = context.watch<LanguageProvider>().languageCode;
+
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, _) {
         return MaterialApp(
-          title: 'Glory Burger',
+          title: AppTranslations.translate('app.name', languageCode),
           debugShowCheckedModeBanner: false,
 
           // Theme configuration (Material Design 3 with KFC-inspired colors)
@@ -123,6 +125,10 @@ class _AppShellState extends State<AppShell> {
       const ProfileScreen(),
     ];
 
+    final languageCode = context.watch<LanguageProvider>().languageCode;
+    final locationProvider = context.watch<LocationProvider>();
+    final currentLocation = locationProvider.selectedLocation.getLocalizedName(languageCode);
+
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
@@ -152,11 +158,12 @@ class _AppShellState extends State<AppShell> {
                   end: Alignment.bottomRight,
                 ),
               ),
-              accountName: const Text(
-                'Glory Burger Enthusiast',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              accountName: Text(
+                'drawer.enthusiast'.tr(languageCode),
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
-              accountEmail: const Text('customer@gloryburger.com'),
+              accountEmail: Text(
+                'drawer.customer_email'.tr(languageCode)),
               currentAccountPicture: Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
@@ -183,7 +190,7 @@ class _AppShellState extends State<AppShell> {
             // ── Menu Items ────────────────────────────────────
             _buildDrawerMenuItem(
               icon: Icons.home_rounded,
-              label: 'Home',
+              label: 'nav.home'.tr(languageCode),
               onTap: () {
                 Navigator.pop(context);
                 _onTabSelected(0);
@@ -191,7 +198,7 @@ class _AppShellState extends State<AppShell> {
             ),
             _buildDrawerMenuItem(
               icon: Icons.shopping_cart_rounded,
-              label: 'My Cart',
+              label: 'nav.my_cart'.tr(languageCode),
               onTap: () {
                 Navigator.pop(context);
                 _onTabSelected(1);
@@ -199,7 +206,7 @@ class _AppShellState extends State<AppShell> {
             ),
             _buildDrawerMenuItem(
               icon: Icons.receipt_long_rounded,
-              label: 'Order History',
+              label: 'nav.order_history'.tr(languageCode),
               onTap: () {
                 Navigator.pop(context);
                 _onTabSelected(2);
@@ -209,13 +216,13 @@ class _AppShellState extends State<AppShell> {
             const Divider(indent: 16, endIndent: 16),
 
             // ── Payment Section ───────────────────────────────
-            const Padding(
-              padding: EdgeInsets.only(left: 16, top: 8, bottom: 4),
+            Padding(
+              padding: const EdgeInsets.only(left: 16, top: 8, bottom: 4),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'PAYMENT',
-                  style: TextStyle(
+                  'section.payment'.tr(languageCode).toUpperCase(),
+                  style: const TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w700,
                     color: AppColors.mediumGrey,
@@ -226,24 +233,24 @@ class _AppShellState extends State<AppShell> {
             ),
             _buildDrawerMenuItem(
               icon: Icons.payment_rounded,
-              label: 'Payment Methods',
+              label: 'payment.methods'.tr(languageCode),
               subtitle: _selectedPaymentMethod,
               onTap: () {
                 Navigator.pop(context);
-                _showPaymentMethods(context);
+                _showPaymentMethods(context, languageCode);
               },
             ),
 
             const Divider(indent: 16, endIndent: 16),
 
             // ── More Section ──────────────────────────────────
-            const Padding(
-              padding: EdgeInsets.only(left: 16, top: 8, bottom: 4),
+            Padding(
+              padding: const EdgeInsets.only(left: 16, top: 8, bottom: 4),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'MORE',
-                  style: TextStyle(
+                  'section.more'.tr(languageCode).toUpperCase(),
+                  style: const TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w700,
                     color: AppColors.mediumGrey,
@@ -254,7 +261,7 @@ class _AppShellState extends State<AppShell> {
             ),
             _buildDrawerMenuItem(
               icon: Icons.person_rounded,
-              label: 'My Profile',
+              label: 'nav.my_profile'.tr(languageCode),
               onTap: () {
                 Navigator.pop(context);
                 _onTabSelected(3);
@@ -262,23 +269,23 @@ class _AppShellState extends State<AppShell> {
             ),
             _buildDrawerMenuItem(
               icon: Icons.star_rounded,
-              label: 'Rate the App',
+              label: 'nav.rate_app'.tr(languageCode),
               onTap: () => Navigator.pop(context),
             ),
             _buildDrawerMenuItem(
               icon: Icons.info_rounded,
-              label: 'About Glory Burger',
+              label: 'nav.about'.tr(languageCode),
               onTap: () => Navigator.pop(context),
             ),
 
             // ── Theme Toggle ────────────────────────────────────
-            const Padding(
-              padding: EdgeInsets.only(left: 16, top: 8, bottom: 4),
+            Padding(
+              padding: const EdgeInsets.only(left: 16, top: 8, bottom: 4),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'APPEARANCE',
-                  style: TextStyle(
+                  'section.appearance'.tr(languageCode).toUpperCase(),
+                  style: const TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w700,
                     color: AppColors.mediumGrey,
@@ -287,13 +294,53 @@ class _AppShellState extends State<AppShell> {
                 ),
               ),
             ),
-            _buildThemeToggle(isDarkMode, themeProvider),
+            _buildThemeToggle(isDarkMode, themeProvider, languageCode),
+
+            // ── SETTINGS Section ───────────────────────────
+            const Divider(indent: 16, endIndent: 16),
+            Padding(
+              padding: const EdgeInsets.only(left: 16, top: 8, bottom: 4),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'section.settings'.tr(languageCode).toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.mediumGrey,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+              ),
+            ),
+
+            // ── Language Option ────────────────────────────
+            _buildDrawerMenuItem(
+              icon: Icons.language_rounded,
+              label: 'language.title'.tr(languageCode),
+              subtitle: languageCode == 'sw' ? 'Kiswahili' : 'English',
+              onTap: () {
+                Navigator.pop(context);
+                _showLanguageSelector(context, languageCode);
+              },
+            ),
+
+            // ── Location Option ────────────────────────────
+            _buildDrawerMenuItem(
+              icon: Icons.location_on_rounded,
+              label: 'location.title'.tr(languageCode),
+              subtitle: currentLocation,
+              onTap: () {
+                Navigator.pop(context);
+                _showLocationSelector(context, languageCode);
+              },
+            ),
 
             // ── Logout ────────────────────────────────────────
             const Divider(indent: 16, endIndent: 16),
             _buildDrawerMenuItem(
               icon: Icons.logout_rounded,
-              label: 'Logout',
+              label: 'nav.logout'.tr(languageCode),
               isDestructive: true,
               onTap: () => Navigator.pop(context),
             ),
@@ -320,7 +367,7 @@ class _AppShellState extends State<AppShell> {
   }
 
   /// Builds the theme toggle drawer item
-  Widget _buildThemeToggle(bool isDarkMode, ThemeProvider themeProvider) {
+  Widget _buildThemeToggle(bool isDarkMode, ThemeProvider themeProvider, String languageCode) {
     return InkWell(
       onTap: () {
         themeProvider.toggleTheme();
@@ -349,7 +396,9 @@ class _AppShellState extends State<AppShell> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    isDarkMode ? 'Light Mode' : 'Dark Mode',
+                    isDarkMode
+                        ? 'theme.dark_mode'.tr(languageCode)
+                        : 'theme.light_mode'.tr(languageCode),
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
@@ -358,7 +407,9 @@ class _AppShellState extends State<AppShell> {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    isDarkMode ? 'Switch to light theme' : 'Switch to dark theme',
+                    isDarkMode
+                        ? 'theme.switch_light'.tr(languageCode)
+                        : 'theme.switch_dark'.tr(languageCode),
                     style: const TextStyle(
                       fontSize: 11,
                       color: AppColors.mediumGrey,
@@ -397,7 +448,7 @@ class _AppShellState extends State<AppShell> {
     );
   }
 
-  void _showPaymentMethods(BuildContext context) {
+  void _showPaymentMethods(BuildContext context, String languageCode) {
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -420,17 +471,17 @@ class _AppShellState extends State<AppShell> {
               ),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Select Payment Method',
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.darkCharcoal),
+            Text(
+              'payment.select'.tr(languageCode),
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: AppColors.darkCharcoal),
             ),
             const SizedBox(height: 4),
-            const Text(
-              'Choose your preferred way to pay',
-              style: TextStyle(fontSize: 12, color: AppColors.mediumGrey),
+            Text(
+              'payment.choose'.tr(languageCode),
+              style: const TextStyle(fontSize: 12, color: AppColors.mediumGrey),
             ),
             const SizedBox(height: 16),
 
@@ -642,5 +693,229 @@ class _AppShellState extends State<AppShell> {
   void _updatePaymentMethod(String method) {
     setState(() => _selectedPaymentMethod = method);
     Navigator.pop(context);
+  }
+
+  /// Shows a bottom sheet to select the app language
+  void _showLanguageSelector(BuildContext context, String currentLanguage) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) {
+        final langProvider = context.read<LanguageProvider>();
+        return Container(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Drag handle
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: AppColors.lightGrey,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'language.select'.tr(currentLanguage),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.darkCharcoal,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'language.choose'.tr(currentLanguage),
+                style: const TextStyle(fontSize: 12, color: AppColors.mediumGrey),
+              ),
+              const SizedBox(height: 16),
+
+              // English option
+              _buildSelectionTile(
+                icon: Icons.language,
+                color: Colors.blue,
+                title: 'English',
+                subtitle: 'language.english'.tr(currentLanguage),
+                isSelected: currentLanguage == 'en',
+                onTap: () {
+                  langProvider.setLanguage('en');
+                  Navigator.pop(ctx);
+                },
+              ),
+
+              // Swahili option
+              _buildSelectionTile(
+                icon: Icons.translate,
+                color: AppColors.successGreen,
+                title: 'Kiswahili',
+                subtitle: 'language.swahili'.tr(currentLanguage),
+                isSelected: currentLanguage == 'sw',
+                onTap: () {
+                  langProvider.setLanguage('sw');
+                  Navigator.pop(ctx);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  /// Shows a bottom sheet to select the delivery location
+  void _showLocationSelector(BuildContext context, String currentLanguage) {
+    final allLocations = LocationProvider.locations;
+
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) {
+        final locProvider = context.read<LocationProvider>();
+        return Container(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Drag handle
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: AppColors.lightGrey,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'location.select'.tr(currentLanguage),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.darkCharcoal,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'location.choose'.tr(currentLanguage),
+                style: const TextStyle(fontSize: 12, color: AppColors.mediumGrey),
+              ),
+              const SizedBox(height: 16),
+
+              // Location list (scrollable)
+              Flexible(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: allLocations.map((location) {
+                      final isSelected = locProvider.selectedLocation.key == location.key;
+                      return _buildSelectionTile(
+                        icon: isSelected
+                            ? Icons.location_on_rounded
+                            : Icons.location_on_outlined,
+                        color: AppColors.primaryRed,
+                        title: location.getLocalizedName(currentLanguage),
+                        subtitle: location.getLocalizedName(
+                            currentLanguage == 'sw' ? 'en' : 'sw'),
+                        isSelected: isSelected,
+                        onTap: () {
+                          locProvider.setLocation(location);
+                          Navigator.pop(ctx);
+                        },
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  /// Builds a generic selection tile for bottom sheets (language, location, etc.)
+  Widget _buildSelectionTile({
+    required IconData icon,
+    required Color color,
+    required String title,
+    required String subtitle,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      margin: const EdgeInsets.only(bottom: 8),
+      child: Material(
+        color: isSelected ? color.withValues(alpha: 0.08) : AppColors.offWhite,
+        borderRadius: BorderRadius.circular(14),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(14),
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: Row(
+              children: [
+                Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: color.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(icon, color: color, size: 22),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.darkCharcoal,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        subtitle,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: AppColors.mediumGrey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (isSelected)
+                  Container(
+                    width: 24,
+                    height: 24,
+                    decoration: const BoxDecoration(
+                      color: AppColors.successGreen,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.check,
+                      color: AppColors.white,
+                      size: 16,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
