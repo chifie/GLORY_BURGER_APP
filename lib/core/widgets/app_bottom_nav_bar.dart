@@ -196,7 +196,7 @@ class _CartNavItem extends StatelessWidget {
                       top: -6,
                       child: AnimatedScale(
                         duration: const Duration(milliseconds: 300),
-                        curve: Curves.elasticOut,
+                        curve: Curves.easeOut,
                         scale: 1.0,
                         child: Container(
                           padding: const EdgeInsets.all(4),

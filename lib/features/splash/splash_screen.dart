@@ -95,7 +95,7 @@ class _SplashScreenState extends State<SplashScreen>
     );
 
     _textScale = Tween<double>(begin: 0.7, end: 1.0).animate(
-      CurvedAnimation(parent: _textController, curve: Curves.easeOutBack),
+      CurvedAnimation(parent: _textController, curve: Curves.easeOut),
     );
 
     // ── Tagline Controller ──────────────────────────────────────
@@ -112,7 +112,7 @@ class _SplashScreenState extends State<SplashScreen>
     );
 
     _taglineScale = Tween<double>(begin: 0.5, end: 1.0).animate(
-      CurvedAnimation(parent: _taglineController, curve: Curves.elasticOut),
+      CurvedAnimation(parent: _taglineController, curve: Curves.easeOut),
     );
 
     // ── Background Pulse ────────────────────────────────────────
