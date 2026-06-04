@@ -220,7 +220,7 @@ class _SplashScreenState extends State<SplashScreen>
               children: [
                 const Spacer(flex: 2),
 
-                // ── Floating Splash Image ──────────────────────
+                // ── Splash Image (full, uncropped) ──────────────
                 AnimatedBuilder(
                   animation: Listenable.merge([
                     _logoController,
@@ -233,27 +233,23 @@ class _SplashScreenState extends State<SplashScreen>
                         angle: _logoRotation.value,
                         child: Transform.scale(
                           scale: _logoScale.value,
-                          child: Hero(
-                            tag: 'app-logo',
-                            child: Container(
-                              width: 260,
-                              height: 260,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppColors.accentGold
-                                        .withValues(alpha: 0.15 + _bgPulse.value * 0.1),
-                                    blurRadius: 30 + _bgPulse.value * 15,
-                                    spreadRadius: _bgPulse.value * 5,
-                                  ),
-                                ],
-                              ),
-                              child: ClipOval(
-                                child: Image.asset(
-                                  'lib/assets/images/burgers/splash.png',
-                                  fit: BoxFit.cover,
+                          child: Container(
+                            width: 280,
+                            height: 280,
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.accentGold.withValues(alpha: 0.2),
+                                  blurRadius: 35,
+                                  spreadRadius: 5,
                                 ),
+                              ],
+                            ),
+                            child: Hero(
+                              tag: 'app-logo',
+                              child: Image.asset(
+                                'lib/assets/images/burgers/splash.png',
+                                fit: BoxFit.contain,
                               ),
                             ),
                           ),
