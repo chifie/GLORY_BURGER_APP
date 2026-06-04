@@ -68,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen>
         tween: Tween<double>(begin: 0.95, end: 1.0), weight: 40,
       ),
     ]).animate(CurvedAnimation(
-      parent: _logoController, curve: Curves.easeOutBack,
+      parent: _logoController, curve: Curves.easeOutCubic,
     ));
 
     _logoRotation = Tween<double>(begin: -0.08, end: 0.0).animate(
@@ -214,11 +214,18 @@ class _SplashScreenState extends State<SplashScreen>
           );
         },
         child: SafeArea(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Spacer(flex: 2),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: constraints.maxHeight,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+
+                const SizedBox(height: 40),
 
                 // ── Splash Image (full, uncropped) ──────────────
                 AnimatedBuilder(
@@ -365,7 +372,8 @@ class _SplashScreenState extends State<SplashScreen>
                   ),
                 ),
 
-                const Spacer(flex: 2),
+
+                const SizedBox(height: 40),
 
                 // ── Animated Loading Indicator ────────────────
                 AnimatedBuilder(
@@ -392,9 +400,12 @@ class _SplashScreenState extends State<SplashScreen>
                   },
                 ),
 
-                const Spacer(flex: 1),
+                const SizedBox(height: 60),
               ],
-            ),
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ),
