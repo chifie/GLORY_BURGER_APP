@@ -8,3 +8,5 @@ export 'cart_provider.dart';
 export 'order_provider.dart';
 export 'profile_provider.dart';
 export 'theme_provider.dart';
+export 'language_provider.dart';
+export 'location_provider.dart';

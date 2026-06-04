@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
+add import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'core/constants/app_colors.dart';
+import 'core/localization/app_translations.dart';
 import 'core/theme/app_theme.dart';
 import 'core/widgets/app_bottom_nav_bar.dart';
 import 'features/home/home_screen.dart';
@@ -14,6 +15,8 @@ import 'providers/cart_provider.dart';
 import 'providers/order_provider.dart';
 import 'providers/profile_provider.dart';
 import 'providers/theme_provider.dart';
+import 'providers/language_provider.dart';
+import 'providers/location_provider.dart';
 import 'routes/app_routes.dart';
 import 'routes/route_generator.dart';
 
