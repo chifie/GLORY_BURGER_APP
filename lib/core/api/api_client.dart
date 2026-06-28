@@ -2,10 +2,15 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiClient {
-  // For Android emulator use: http://10.0.2.2:3000/api/v1
-  // For iOS simulator use:    http://localhost:3000/api/v1
-  // For physical device:      http://<YOUR_COMPUTER_IP>:3000/api/v1
-  static const String baseUrl = "http://10.0.2.2:3000/api/v1";
+  // ── BASE URL CONFIGURATION ─────────────────────────────────────
+  // For a PHYSICAL Android phone (your case):
+  //   - Your phone and computer must be on the SAME WiFi network
+  //   - Replace with YOUR computer's local IP (run `ipconfig` on Windows or `ifconfig` on Mac/Linux)
+  //   - Example: "http://192.168.1.105:3000/api/v1"
+  //
+  // For Android EMULATOR (AVD): use http://10.0.2.2:3000/api/v1
+  // For iOS simulator:          use http://localhost:3000/api/v1
+  static const String baseUrl = "http://YOUR_COMPUTER_IP:3000/api/v1";
 
   static Map<String, String> headers(String? token) {
     return {
