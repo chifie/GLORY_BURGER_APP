@@ -13,6 +13,10 @@ dependencies:
   # State Management
   provider: ^6.1.2
 
+  # HTTP & Storage
+  http: ^1.2.0
+  shared_preferences: ^2.2.3
+
   # Icons
   cupertino_icons: ^1.0.8
 

@@ -27,6 +27,40 @@ class FoodItem {
     this.isAvailable = true,
   });
 
+  /// Deserializes a FoodItem from a backend JSON map.
+  factory FoodItem.fromJson(Map<String, dynamic> json) {
+    return FoodItem(
+      id: json['id']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
+      price: double.tryParse(json['price']?.toString() ?? '0') ?? 0.0,
+      category: json['category']?.toString() ?? 'Burgers',
+      subCategory: json['subCategory']?.toString() ?? '',
+      imageUrl: json['imageUrl']?.toString() ?? '',
+      rating: double.tryParse(json['rating']?.toString() ?? '4.0') ?? 4.0,
+      reviewCount: int.tryParse(json['reviewCount']?.toString() ?? '0') ?? 0,
+      isPopular: json['isPopular'] == true,
+      isAvailable: json['isAvailable'] != false,
+    );
+  }
+
+  /// Serializes a FoodItem to a JSON map.
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'price': price,
+      'category': category,
+      'subCategory': subCategory,
+      'imageUrl': imageUrl,
+      'rating': rating,
+      'reviewCount': reviewCount,
+      'isPopular': isPopular,
+      'isAvailable': isAvailable,
+    };
+  }
+
   /// Creates a copy with optional field overrides
   FoodItem copyWith({
     String? id,

@@ -5,6 +5,7 @@ import '../../core/constants/app_constants.dart';
 import '../../core/utils/helpers.dart';
 import '../../core/widgets/custom_button.dart';
 import '../../core/widgets/custom_text_field.dart';
+import '../../providers/auth_provider.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/order_provider.dart';
 import '../../providers/notification_provider.dart';
@@ -534,17 +535,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
     setState(() => _isPlacing = true);
 
-    // Simulate a short processing delay
-    await Future.delayed(const Duration(seconds: 1));
-
     if (!context.mounted) return;
 
+    final authProvider = context.read<AuthProvider>();
+    final token = authProvider.token ?? '';
+
     final orderProvider = context.read<OrderProvider>();
-    final orderId = orderProvider.placeOrder(
-      cartItems: cartProvider.cartItems,
-      subtotal: cartProvider.subtotal,
-      deliveryFee: cartProvider.deliveryFee,
-      total: cartProvider.total,
+    final orderId = await orderProvider.placeOrder(
+      token: token,
+      cartItems: cartProvider.cartItems.toList(),
       customerName: _nameController.text.trim(),
       phone: _phoneController.text.trim(),
       address: _addressController.text.trim(),
@@ -553,6 +552,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           ? _paymentPhoneController.text.trim()
           : null,
     );
+
+    if (!context.mounted) return;
+
+    if (orderId == null) {
+      setState(() => _isPlacing = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(orderProvider.error ?? 'Could not place order. Try again.'),
+          backgroundColor: AppColors.primaryRed,
+        ),
+      );
+      return;
+    }
 
     // Trigger notification for the placed order
     context

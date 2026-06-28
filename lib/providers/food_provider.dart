@@ -1,44 +1,62 @@
 import 'package:flutter/material.dart';
 import '../models/food_item.dart';
-import '../models/mock_data.dart';
+import '../core/services/food_service.dart';
+import '../core/api/api_client.dart';
 
 /// Provider that manages the food catalog, category filtering,
-/// and search functionality. Uses mock data as the data source.
+/// and search functionality. Fetches data from the backend API.
 class FoodProvider extends ChangeNotifier {
-  // ── State ─────────────────────────────────────────────────────
   List<FoodItem> _allFoods = [];
   List<FoodItem> _filteredFoods = [];
   List<FoodItem> _popularFoods = [];
   String _selectedCategory = 'Burgers';
   String _searchQuery = '';
   bool _isLoading = false;
+  String? _error;
 
-  // ── Getters ───────────────────────────────────────────────────
   List<FoodItem> get allFoods => _allFoods;
   List<FoodItem> get filteredFoods => _filteredFoods;
   List<FoodItem> get popularFoods => _popularFoods;
   String get selectedCategory => _selectedCategory;
   String get searchQuery => _searchQuery;
   bool get isLoading => _isLoading;
+  String? get error => _error;
 
-  /// Initializes the provider by loading mock data.
   FoodProvider() {
     loadFoods();
   }
 
-  /// Loads food items from the mock data source.
-  void loadFoods() {
+  /// Fetches food items from the backend API.
+  Future<void> loadFoods() async {
     _isLoading = true;
+    _error = null;
     notifyListeners();
 
-    // Simulate a small network delay
-    Future.delayed(const Duration(milliseconds: 500), () {
-      _allFoods = MockData.foodItems;
-      _popularFoods = MockData.popularItems;
+    try {
+      final foodsRes = await FoodService.getFoods();
+      final popularRes = await FoodService.getPopularFoods();
+
+      if (foodsRes['success'] == true) {
+        _allFoods = (foodsRes['data'] as List)
+            .map((j) => FoodItem.fromJson(j as Map<String, dynamic>))
+            .toList();
+      }
+
+      if (popularRes['success'] == true) {
+        _popularFoods = (popularRes['data'] as List)
+            .map((j) => FoodItem.fromJson(j as Map<String, dynamic>))
+            .toList();
+      }
+
       _filterFoods();
+    } on ApiException catch (e) {
+      _error = e.message;
+    } catch (e) {
+      _error = 'Could not load menu. Check your connection.';
+    } finally {
       _isLoading = false;
       notifyListeners();
-    });
+    }
   }
 
   /// Sets the selected category and re-filters the food list.
@@ -62,7 +80,7 @@ class FoodProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Returns food items grouped by sub-category
+  /// Returns food items grouped by sub-category.
   Map<String, List<FoodItem>> getFoodsBySubCategory(List<FoodItem> foods) {
     final Map<String, List<FoodItem>> grouped = {};
     for (final food in foods) {
@@ -82,18 +100,15 @@ class FoodProvider extends ChangeNotifier {
     }
   }
 
-  /// Internal method to filter foods based on category and search query.
   void _filterFoods() {
     List<FoodItem> result = _allFoods;
 
-    // Filter by category first
     if (_selectedCategory.isNotEmpty) {
       result = result
           .where((food) => food.category == _selectedCategory)
           .toList();
     }
 
-    // Then apply search filter if query is not empty
     if (_searchQuery.isNotEmpty) {
       final lowerQuery = _searchQuery.toLowerCase();
       result = result

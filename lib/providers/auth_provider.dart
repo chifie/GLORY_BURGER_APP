@@ -1,55 +1,89 @@
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../core/services/auth_service.dart';
+import '../core/api/api_client.dart';
 
-/// Represents a user account with basic registration/login details.
+/// Represents a logged-in user.
 class AuthUser {
+  final String id;
   final String email;
-  final String password;
   final String name;
   final String phone;
 
   AuthUser({
+    required this.id,
     required this.email,
-    required this.password,
     required this.name,
     required this.phone,
   });
 
-  /// Creates a copy with optional field overrides.
-  AuthUser copyWith({
-    String? email,
-    String? password,
-    String? name,
-    String? phone,
-  }) {
+  factory AuthUser.fromJson(Map<String, dynamic> json) {
     return AuthUser(
-      email: email ?? this.email,
-      password: password ?? this.password,
-      name: name ?? this.name,
-      phone: phone ?? this.phone,
+      id: json['id']?.toString() ?? '',
+      email: json['email']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      phone: json['phone']?.toString() ?? '',
     );
   }
 }
 
-/// Manages authentication state (registration & login) for the app.
-/// In a production app this would communicate with a backend API.
-/// For demo purposes, it stores registered users in memory.
+/// Manages authentication state — registration, login, logout.
+/// Persists the JWT token across app restarts via shared_preferences.
 class AuthProvider extends ChangeNotifier {
-  // ── Private State ─────────────────────────────────────────────
-  final List<AuthUser> _registeredUsers = [];
   AuthUser? _currentUser;
+  String? _token;
   bool _isLoading = false;
   String? _errorMessage;
 
-  // ── Public Getters ────────────────────────────────────────────
-  bool get isLoggedIn => _currentUser != null;
+  bool get isLoggedIn => _currentUser != null && _token != null;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   AuthUser? get currentUser => _currentUser;
-  List<AuthUser> get registeredUsers => List.unmodifiable(_registeredUsers);
+  String? get token => _token;
 
-  // ── Registration ──────────────────────────────────────────────
-  /// Registers a new user account.
-  /// Returns true on success, false on failure (email already exists).
+  AuthProvider() {
+    _restoreSession();
+  }
+
+  /// Restores JWT token and user info from local storage on app start.
+  Future<void> _restoreSession() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedToken = prefs.getString('auth_token');
+    final savedId = prefs.getString('user_id');
+    final savedEmail = prefs.getString('user_email');
+    final savedName = prefs.getString('user_name');
+    final savedPhone = prefs.getString('user_phone');
+    if (savedToken != null && savedId != null) {
+      _token = savedToken;
+      _currentUser = AuthUser(
+        id: savedId,
+        email: savedEmail ?? '',
+        name: savedName ?? '',
+        phone: savedPhone ?? '',
+      );
+      notifyListeners();
+    }
+  }
+
+  Future<void> _saveSession(String token, AuthUser user) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('auth_token', token);
+    await prefs.setString('user_id', user.id);
+    await prefs.setString('user_email', user.email);
+    await prefs.setString('user_name', user.name);
+    await prefs.setString('user_phone', user.phone);
+  }
+
+  Future<void> _clearSession() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('auth_token');
+    await prefs.remove('user_id');
+    await prefs.remove('user_email');
+    await prefs.remove('user_name');
+    await prefs.remove('user_phone');
+  }
+
+  /// Registers a new user account and logs them in on success.
   Future<bool> register({
     required String name,
     required String email,
@@ -60,72 +94,36 @@ class AuthProvider extends ChangeNotifier {
     _setLoading(true);
     _clearError();
 
-    // Simulate network delay
-    await Future.delayed(const Duration(milliseconds: 800));
+    if (name.trim().isEmpty) return _fail('Name is required');
+    if (email.trim().isEmpty) return _fail('Email is required');
+    if (!_isValidEmail(email.trim())) return _fail('Please enter a valid email address');
+    if (phone.trim().isEmpty) return _fail('Phone number is required');
+    if (password.isEmpty) return _fail('Password is required');
+    if (password.length < 6) return _fail('Password must be at least 6 characters');
+    if (password != confirmPassword) return _fail('Passwords do not match');
 
-    // ── Validation ──────────────────────────────────────────────
-    if (name.trim().isEmpty) {
-      _setError('Name is required');
-      _setLoading(false);
-      return false;
+    try {
+      final res = await AuthService.register(name.trim(), email.trim(), password, phone.trim());
+      if (res['success'] == true) {
+        final data = res['data'] as Map<String, dynamic>;
+        final token = data['token'] as String;
+        final user = AuthUser.fromJson(data['user'] as Map<String, dynamic>);
+        _token = token;
+        _currentUser = user;
+        await _saveSession(token, user);
+        _setLoading(false);
+        notifyListeners();
+        return true;
+      }
+      return _fail(res['message']?.toString() ?? 'Registration failed');
+    } on ApiException catch (e) {
+      return _fail(e.message);
+    } catch (e) {
+      return _fail('Could not connect to server. Check your connection.');
     }
-    if (email.trim().isEmpty) {
-      _setError('Email is required');
-      _setLoading(false);
-      return false;
-    }
-    if (!_isValidEmail(email.trim())) {
-      _setError('Please enter a valid email address');
-      _setLoading(false);
-      return false;
-    }
-    if (phone.trim().isEmpty) {
-      _setError('Phone number is required');
-      _setLoading(false);
-      return false;
-    }
-    if (password.isEmpty) {
-      _setError('Password is required');
-      _setLoading(false);
-      return false;
-    }
-    if (password.length < 6) {
-      _setError('Password must be at least 6 characters');
-      _setLoading(false);
-      return false;
-    }
-    if (password != confirmPassword) {
-      _setError('Passwords do not match');
-      _setLoading(false);
-      return false;
-    }
-
-    // Check if email already registered
-    final emailLower = email.trim().toLowerCase();
-    if (_registeredUsers.any((u) => u.email.toLowerCase() == emailLower)) {
-      _setError('An account with this email already exists');
-      _setLoading(false);
-      return false;
-    }
-
-    // Create the user
-    final newUser = AuthUser(
-      name: name.trim(),
-      email: email.trim(),
-      phone: phone.trim(),
-      password: password, // In production, hash the password!
-    );
-
-    _registeredUsers.add(newUser);
-    _currentUser = newUser;
-    _setLoading(false);
-    notifyListeners();
-    return true;
   }
 
-  // ── Login ─────────────────────────────────────────────────────
-  /// Logs in a user with email and password.
-  /// Returns true on success, false on failure.
+  /// Logs in with email and password.
   Future<bool> login({
     required String email,
     required String password,
@@ -133,69 +131,56 @@ class AuthProvider extends ChangeNotifier {
     _setLoading(true);
     _clearError();
 
-    // Simulate network delay
-    await Future.delayed(const Duration(milliseconds: 800));
+    if (email.trim().isEmpty) return _fail('Email is required');
+    if (password.isEmpty) return _fail('Password is required');
 
-    // ── Validation ──────────────────────────────────────────────
-    if (email.trim().isEmpty) {
-      _setError('Email is required');
-      _setLoading(false);
-      return false;
+    try {
+      final res = await AuthService.login(email.trim(), password);
+      if (res['success'] == true) {
+        final data = res['data'] as Map<String, dynamic>;
+        final token = data['token'] as String;
+        final user = AuthUser.fromJson(data['user'] as Map<String, dynamic>);
+        _token = token;
+        _currentUser = user;
+        await _saveSession(token, user);
+        _setLoading(false);
+        notifyListeners();
+        return true;
+      }
+      return _fail(res['message']?.toString() ?? 'Login failed');
+    } on ApiException catch (e) {
+      return _fail(e.message);
+    } catch (e) {
+      return _fail('Could not connect to server. Check your connection.');
     }
-    if (password.isEmpty) {
-      _setError('Password is required');
-      _setLoading(false);
-      return false;
-    }
-
-    // Find user by email
-    final emailLower = email.trim().toLowerCase();
-    final user = _registeredUsers.where(
-      (u) => u.email.toLowerCase() == emailLower,
-    );
-
-    if (user.isEmpty) {
-      _setError('No account found with this email');
-      _setLoading(false);
-      return false;
-    }
-
-    final matchedUser = user.first;
-    if (matchedUser.password != password) {
-      _setError('Incorrect password');
-      _setLoading(false);
-      return false;
-    }
-
-    _currentUser = matchedUser;
-    _setLoading(false);
-    notifyListeners();
-    return true;
   }
 
-  // ── Guest Login ───────────────────────────────────────────────
-  /// Allows the user to skip registration and continue as guest.
+  /// Allows the user to browse without logging in.
   void loginAsGuest() {
     _clearError();
-    // Guest user with empty fields
-    _currentUser = AuthUser(
-      name: 'Guest',
-      email: '',
-      password: '',
-      phone: '',
-    );
+    _currentUser = AuthUser(id: 'guest', name: 'Guest', email: '', phone: '');
+    _token = null;
     notifyListeners();
   }
 
-  // ── Logout ────────────────────────────────────────────────────
-  /// Logs out the current user.
-  void logout() {
+  /// Logs out and clears stored session.
+  Future<void> logout() async {
     _currentUser = null;
+    _token = null;
     _clearError();
+    await _clearSession();
     notifyListeners();
   }
 
-  // ── Helpers ───────────────────────────────────────────────────
+  bool _isValidEmail(String email) =>
+      RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
+
+  bool _fail(String message) {
+    _setError(message);
+    _setLoading(false);
+    return false;
+  }
+
   void _setLoading(bool value) {
     _isLoading = value;
     notifyListeners();
@@ -208,12 +193,7 @@ class AuthProvider extends ChangeNotifier {
 
   void _clearError() {
     _errorMessage = null;
-    notifyListeners();
   }
 
-  /// Simple email format validation.
-  bool _isValidEmail(String email) {
-    final regex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
-    return regex.hasMatch(email);
-  }
+  void clearError() => _clearError();
 }
