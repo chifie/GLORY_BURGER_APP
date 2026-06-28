@@ -10,7 +10,7 @@ class ApiClient {
   //
   // For Android EMULATOR (AVD): use http://10.0.2.2:3000/api/v1
   // For iOS simulator:          use http://localhost:3000/api/v1
-  static const String baseUrl = "http://YOUR_COMPUTER_IP:3000/api/v1";
+  static const String baseUrl = "http://192.168.0.176:3000/api/v1";
 
   static Map<String, String> headers(String? token) {
     return {
